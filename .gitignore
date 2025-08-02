@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+dist/
+build/
+
+.github/
+
+# Environment variables
+.env
+.env.production
+
+# Python virtual environments
+**/venv/
+**/env/
+**/.venv/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Temporary folders and uploads
+temp/
+uploads/
+downloads/
+server/temp/
+server/uploads/
+server/downloads/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.npm/
+.eslintcache/
+
+# Testing and coverage
+coverage/
+.nyc_output/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backup files
+*.backup
+backup-*/
+*.pdf
+stable_*
