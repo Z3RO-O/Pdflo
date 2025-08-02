@@ -127,13 +127,13 @@ const ConversionOptionsPanel: React.FC<ConversionOptionsPanelProps> = ({ options
             />
             {option.info && !option.error && (
               <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-400 flex items-start">
-                <Info className="w-3 h-3 mr-1 mt-0.5 flex-shrink-0" />
+                <Info className="w-3 h-3 mr-1 mt-0.5 shrink-0" />
                 <span>{option.info}</span>
               </p>
             )}
             {option.error && (
               <p className="mt-1 text-xs text-red-600 dark:text-red-400 flex items-start">
-                <AlertTriangle className="w-3 h-3 mr-1 mt-0.5 flex-shrink-0" />
+                <AlertTriangle className="w-3 h-3 mr-1 mt-0.5 shrink-0" />
                 <span>{option.error}</span>
               </p>
             )}
@@ -142,7 +142,7 @@ const ConversionOptionsPanel: React.FC<ConversionOptionsPanelProps> = ({ options
             {option.id === 'conversionType' && isTextBasedConversion && (
               <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <div className="flex items-start">
-                  <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5 mr-2 flex-shrink-0" />
+                  <AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5 mr-2 shrink-0" />
                   <div>
                     <p className="text-xs text-yellow-700">
                       <strong>Warning:</strong> No images will be extracted and the original document structure may be broken. 

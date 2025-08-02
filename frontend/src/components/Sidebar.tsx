@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTaskSelect, activeTaskId }) => {
                     : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:text-neutral-900 dark:hover:text-white'
                   }`}
               >
-                <span className={`flex-shrink-0 ${activeTaskId === task.id ? 'text-white' : 'text-primary dark:text-secondary-light'}`}>
+                <span className={`shrink-0 ${activeTaskId === task.id ? 'text-white' : 'text-primary dark:text-secondary-light'}`}>
                   {task.icon}
                 </span>
                 <span className="text-left truncate">{task.label}</span>

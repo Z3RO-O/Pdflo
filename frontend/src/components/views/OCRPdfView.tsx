@@ -203,7 +203,7 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
         {/* OCR Information */}
         <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
           <div className="flex items-start">
-            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 mr-3 flex-shrink-0" />
+            <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 mr-3 shrink-0" />
             <div>
               <h4 className="text-sm font-medium text-blue-800 dark:text-blue-200 mb-2">
                 Enhanced OCR Processing

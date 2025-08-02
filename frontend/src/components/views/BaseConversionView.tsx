@@ -224,7 +224,7 @@ const BaseConversionView: React.FC<BaseConversionViewProps> = ({
 
         {error && (
           <div className="mt-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-md text-red-700 dark:text-red-300 flex items-center space-x-2">
-            <AlertTriangle className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" />
+            <AlertTriangle className="w-4 h-4 md:w-5 md:h-5 shrink-0" />
             <span className="text-sm">{error}</span>
           </div>
         )}
@@ -235,7 +235,7 @@ const BaseConversionView: React.FC<BaseConversionViewProps> = ({
             isLoading={isConverting}
             disabled={isConverting || (task.requiresFileUpload && uploadedFiles.length === 0 && !children)} // Disable if no files and no special child input
             size="lg"
-            className="w-full sm:w-auto flex-grow"
+            className="w-full sm:w-auto grow"
           >
             {isConverting ? 'Converting...' : `Convert to ${task.isEditingTool ? 'Apply Changes' : task.supportedOutputFormats?.[0]?.label || 'Output'}`} 
           </Button>

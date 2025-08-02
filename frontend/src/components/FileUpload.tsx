@@ -160,7 +160,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               <li key={uploadedFile.id} className="p-3 flex items-center justify-between hover:bg-neutral-50 dark:hover:bg-neutral-700/30">
                 <div className="flex items-center space-x-2 md:space-x-3 min-w-0 flex-1">
                   {uploadedFile.previewUrl && (
-                    <img src={uploadedFile.previewUrl} alt={uploadedFile.file.name} className="w-8 h-8 md:w-10 md:h-10 object-cover rounded flex-shrink-0" />
+                    <img src={uploadedFile.previewUrl} alt={uploadedFile.file.name} className="w-8 h-8 md:w-10 md:h-10 object-cover rounded shrink-0" />
                   )}
                   <div className="min-w-0 flex-1">
                     <span className="text-sm text-neutral-700 dark:text-neutral-300 truncate block" title={uploadedFile.file.name}>
@@ -171,7 +171,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                     </span>
                   </div>
                 </div>
-                <Button variant="ghost" size="sm" onClick={() => handleRemoveFile(uploadedFile.id)} aria-label={`Remove ${uploadedFile.file.name}`} className="flex-shrink-0">
+                <Button variant="ghost" size="sm" onClick={() => handleRemoveFile(uploadedFile.id)} aria-label={`Remove ${uploadedFile.file.name}`} className="shrink-0">
                   <XCircle className="w-4 h-4 md:w-5 md:h-5 text-red-500 hover:text-red-700" />
                 </Button>
               </li>
