@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ConversionType } from './constants'; // Assuming ConversionType is an enum in constants
+import { ConversionType } from './constants';
 
 export interface NavLink {
   id: string; // Could be ConversionType or a general ID
