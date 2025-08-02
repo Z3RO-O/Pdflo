@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback, useContext } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import { ConversionType, ALL_CONVERSION_TASKS } from './constants';
-import { ConversionTask } from './types'; 
+import type { ConversionTask } from './types'; 
 import MuiImageToPdfTool from './components/views/ImageToPdfView'; // Changed import for the new advanced view
 import PdfToImageView from './components/views/PdfToImageView';
 import MergePdfView from './components/views/MergePdfView';
@@ -72,9 +72,9 @@ const App: React.FC = () => {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [downloadFilename, setDownloadFilename] = useState<string>('');
   const [sidebarOpen, setSidebarOpen] = useState(false); // Mobile sidebar state
-  const themeContext = React.useContext(ThemeContext);
+  const themeContext = useContext(ThemeContext);
   const darkMode = themeContext?.darkMode ?? false;
-
+  
   const handleTaskSelect = useCallback((taskId: ConversionType) => {
     const task = ALL_CONVERSION_TASKS.find(t => t.id === taskId) || null;
     setActiveTask(task);

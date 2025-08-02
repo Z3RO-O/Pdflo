@@ -1,18 +1,20 @@
 {
-  "name": "omniconverter-pdf-suite",
+  "name": "pdflo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@mui/icons-material": "5.15.20",
-    "@mui/material": "5.15.20",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.2.0",
+    "@mui/material": "^7.2.0",
+    "@tailwindcss/vite": "^4.1.11",
     "@types/file-saver": "^2.0.7",
     "@types/styled-components": "^5.1.34",
     "file-saver": "^2.0.5",
@@ -20,19 +22,29 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
     "jszip": "^3.10.1",
-    "lucide-react": "^0.303.0",
+    "lucide-react": "^0.536.0",
     "pdf-lib": "^1.17.1",
-    "pdfjs-dist": "^4.1.392",
-    "react": "^18.2.0",
+    "pdfjs-dist": "^5.4.54",
+    "react": "^19.1.0",
     "react-beautiful-dnd": "^13.1.1",
-    "react-dom": "^18.2.0",
+    "react-dom": "^19.1.0",
     "react-image-crop": "^11.0.10",
-    "styled-components": "^6.1.19"
+    "styled-components": "^6.1.19",
+    "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
+    "@eslint/js": "^9.30.1",
+    "@types/node": "^24.1.0",
+    "@types/react": "^19.1.8",
     "@types/react-beautiful-dnd": "^13.1.8",
-    "typescript": "~5.7.2",
-    "vite": "^6.2.0"
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "eslint": "^9.30.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.35.1",
+    "vite": "^7.0.4"
   }
 }

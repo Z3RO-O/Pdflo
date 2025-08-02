@@ -1,21 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF Converter Pro+</title>
-  <meta name="theme-color" content="#05fcc5">
-  <meta name="description" content="PDF Converter Pro+ is a tool that allows you to convert PDF files to Excel, Word, PowerPoint, and more.">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05fcc5">
+    <meta name="description" content="Pdflo is a tool that allows you to convert PDF files to Excel, Word, PowerPoint, and more.">
+    <title>Pdflo</title>
+    <!-- Google tag (gtag.js) -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6S926GZYM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-Q6S926GZYM');
+    </script> -->
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6S926GZYM"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-Q6S926GZYM');
-</script>
 
 <!-- pwa app import start -->
 <link rel="manifest" href="./pwa-app/manifest.webmanifest">
@@ -117,28 +119,6 @@
     }
   </script>
 <link rel="stylesheet" href="https://unpkg.com/react-image-crop/dist/ReactCrop.css">
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.1.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-    "react/": "https://esm.sh/react@^19.1.0/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.523.0",
-    "@mui/material": "https://esm.sh/@mui/material@^5.15.20",
-    "@mui/material/": "https://esm.sh/@mui/material@5.15.20/",
-    "@mui/icons-material": "https://esm.sh/@mui/icons-material@^5.15.20",
-    "@mui/icons-material/": "https://esm.sh/@mui/icons-material@5.15.20/",
-    "@emotion/react": "https://esm.sh/@emotion/react@^11.11.4",
-    "@emotion/styled": "https://esm.sh/@emotion/styled@^11.11.5",
-    "jspdf": "https://esm.sh/jspdf@^2.5.1",
-    "html2canvas": "https://esm.sh/html2canvas@^1.4.1",
-    "react-image-crop": "https://esm.sh/react-image-crop@^11.0.5",
-    "heic2any": "https://esm.sh/heic2any@^0.0.4",
-    "react-image-crop/": "https://esm.sh/react-image-crop@^11.0.10/"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
 <style>
   /* Dark mode CSS variables */
   :root {
@@ -406,8 +386,8 @@
     }
 </style>
 
-  <div id="root" style="margin-top: 33px;"></div>
-  <script type="module" src="/src/index.tsx"></script>
+  <div id="root"></div>
+  <script type="module" src="./src/main.tsx"></script>
   
   <script>
     // Hide loading screen when app is ready
