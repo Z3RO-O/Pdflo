@@ -5,7 +5,7 @@ import React, {
   ReactNode,
   useCallback,
 } from 'react'
-import { DarkModeContextType } from '../types'
+import { DarkModeContextType } from '@/types'
 
 export const ThemeContext = createContext<DarkModeContextType | undefined>(
   undefined,

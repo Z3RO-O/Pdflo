@@ -1,5 +1,5 @@
 import React from 'react'
-import { ConversionOption, ConversionOptionChoice } from '../types'
+import { ConversionOption, ConversionOptionChoice } from '@/types'
 import { Info, AlertTriangle } from 'lucide-react'
 
 interface ConversionOptionsPanelProps {

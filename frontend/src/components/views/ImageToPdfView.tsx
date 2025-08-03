@@ -28,7 +28,7 @@ import {
   Divider,
   SelectChangeEvent,
 } from '@mui/material'
-import AdSense from '../AdSense'
+import AdSense from '@/components/AdSense'
 import {
   Delete as DeleteIcon,
   CloudUpload as CloudUploadIcon,
@@ -51,7 +51,7 @@ import ReactCrop, {
   Crop as CropType,
 } from 'react-image-crop'
 import heic2any from 'heic2any'
-import { ThemeContext } from '../../contexts/ThemeContext'
+import { ThemeContext } from '@/contexts/ThemeContext'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',

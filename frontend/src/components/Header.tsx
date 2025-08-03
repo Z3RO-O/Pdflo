@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { ThemeContext } from '../contexts/ThemeContext'
+import { ThemeContext } from '@/contexts/ThemeContext'
 import { Sun, Moon, Zap, Menu } from 'lucide-react' // Zap for logo, Menu for mobile
 
 interface HeaderProps {

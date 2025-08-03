@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
-import BaseConversionView from './BaseConversionView'
+import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
+import BaseConversionView from '@/components/views/BaseConversionView'
 import { RefreshCw, Languages, Settings, Info } from 'lucide-react'
 
 interface OCRSettings {

@@ -3,14 +3,13 @@ import {
   ConversionTask,
   UploadedFile,
   ProcessedFile,
-  ConversionOption,
-} from '../../types'
-import FileUpload from '../FileUpload'
-import ConversionOptionsPanel from '../ConversionOptionsPanel'
-import Button from '../Button'
-import ProgressBar from '../ProgressBar'
+} from '@/types'
+import FileUpload from '@/components/FileUpload'
+import ConversionOptionsPanel from '@/components/ConversionOptionsPanel'
+import Button from '@/components/Button'
+import ProgressBar from '@/components/ProgressBar'
 import { Download, AlertTriangle, CheckCircle, Trash2 } from 'lucide-react'
-import AdSense from '../AdSense'
+import AdSense from '@/components/AdSense'
 
 interface BaseConversionViewProps {
   task: ConversionTask

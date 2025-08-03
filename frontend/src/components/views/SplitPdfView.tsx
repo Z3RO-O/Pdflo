@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
-import BaseConversionView from './BaseConversionView'
+import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
+import BaseConversionView from '@/components/views/BaseConversionView'
 import * as pdfjsLib from 'pdfjs-dist'
 
 // Set up the worker with local file - exact version match

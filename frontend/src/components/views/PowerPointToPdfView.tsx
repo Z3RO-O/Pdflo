@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
-import BaseConversionView from './BaseConversionView'
+import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
+import BaseConversionView from '@/components/views/BaseConversionView'
 
 interface PowerPointToPdfViewProps {
   task: ConversionTask

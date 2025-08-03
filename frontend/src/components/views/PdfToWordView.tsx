@@ -18,10 +18,10 @@ import {
   CloudUpload as UploadIcon,
   Download as DownloadIcon,
 } from '@mui/icons-material'
-import FileUpload from '../FileUpload'
-import { UploadedFile } from '../../types'
-import { ThemeContext } from '../../contexts/ThemeContext'
-import AdSense from '../AdSense'
+import FileUpload from '@/components/FileUpload'
+import { UploadedFile } from '@/types'
+import { ThemeContext } from '@/contexts/ThemeContext'
+import AdSense from '@/components/AdSense'
 
 const PdfToWordView: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])

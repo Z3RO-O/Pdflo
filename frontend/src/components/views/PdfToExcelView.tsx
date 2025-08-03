@@ -34,7 +34,7 @@ import {
 } from '@mui/icons-material'
 import * as pdfjsLib from 'pdfjs-dist'
 import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist'
-import AdSense from '../AdSense'
+import AdSense from '@/components/AdSense'
 
 // Set up PDF.js worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js'

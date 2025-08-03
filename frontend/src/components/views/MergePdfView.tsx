@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react'
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
-import BaseConversionView from './BaseConversionView'
+import React, { useState } from 'react'
+import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
+import BaseConversionView from '@/components/views/BaseConversionView'
 import {
   DragDropContext,
   Droppable,
@@ -8,9 +8,9 @@ import {
   DropResult,
 } from 'react-beautiful-dnd'
 import { GripVertical, X } from 'lucide-react'
-import Button from '../Button'
-import FileUpload from '../FileUpload'
-import { StrictModeDroppable } from '../StrictModeDroppable'
+import Button from '@/components/Button'
+import FileUpload from '@/components/FileUpload'
+import { StrictModeDroppable } from '@/components/StrictModeDroppable'
 
 interface MergePdfViewProps {
   task: ConversionTask

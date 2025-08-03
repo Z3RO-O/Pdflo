@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react'
-import BaseConversionView from './BaseConversionView'
-import { ConversionType, getTaskById } from '../../constants'
-import { UploadedFile, ProcessedFile } from '../../types'
-import PageManager from '../PageManager'
+import BaseConversionView from '@/components/views/BaseConversionView'
+import { ConversionType, getTaskById } from '@/constants'
+import { UploadedFile, ProcessedFile } from '@/types'
+import PageManager from '@/components/PageManager'
 import { Box, Typography, CircularProgress } from '@mui/material'
 
 interface PageValidationErrors {

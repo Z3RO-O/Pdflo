@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react'
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
-import BaseConversionView from './BaseConversionView'
+import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
+import BaseConversionView from '@/components/views/BaseConversionView'
 import { Type, Download, Eye, EyeOff } from 'lucide-react'
 import { PDFDocument, rgb, degrees } from 'pdf-lib'
 

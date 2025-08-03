@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, DragEvent } from 'react'
 import * as pdfjsLib from 'pdfjs-dist'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
-import Button from '../Button'
-import ProgressBar from '../ProgressBar'
+import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
+import Button from '@/components/Button'
+import ProgressBar from '@/components/ProgressBar'
 import {
   Download,
   AlertTriangle,
@@ -13,7 +13,7 @@ import {
   Eye,
   X,
 } from 'lucide-react'
-import AdSense from '../AdSense'
+import AdSense from '@/components/AdSense'
 
 // Initialize PDF.js worker - use local worker file
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js'

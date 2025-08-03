@@ -1,9 +1,8 @@
-import React from 'react'
 import {
   ConversionTask,
   ConversionOptionChoice,
   ConversionOption,
-} from './types'
+} from '@/types'
 import {
   FileImage,
   FileText,

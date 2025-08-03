@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react'
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
-import BaseConversionView from './BaseConversionView'
+import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
+import BaseConversionView from '@/components/views/BaseConversionView'
 import { Download, AlertTriangle, CheckCircle, Trash2 } from 'lucide-react'
-import Button from '../Button'
-import ProgressBar from '../ProgressBar'
+import Button from '@/components/Button'
+import ProgressBar from '@/components/ProgressBar'
 
 interface TextToPdfViewProps {
   task: ConversionTask

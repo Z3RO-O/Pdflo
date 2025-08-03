@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
-import FileUpload from '../FileUpload'
-import ProgressBar from '../ProgressBar'
-import Button from '../Button'
+import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
+import FileUpload from '@/components/FileUpload'
+import ProgressBar from '@/components/ProgressBar'
+import Button from '@/components/Button'
 import { Download, AlertCircle } from 'lucide-react'
 import styled from 'styled-components'
-import { ThemeContext } from '../../contexts/ThemeContext'
-import AdSense from '../AdSense'
+import { ThemeContext } from '@/contexts/ThemeContext'
+import AdSense from '@/components/AdSense'
 
 interface HtmlToPdfViewProps {
   task: ConversionTask

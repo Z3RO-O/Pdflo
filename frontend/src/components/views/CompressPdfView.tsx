@@ -1,7 +1,7 @@
 import React from 'react'
-import BaseConversionView from './BaseConversionView'
-import { ConversionType, getTaskById } from '../../constants'
-import { UploadedFile, ProcessedFile } from '../../types'
+import BaseConversionView from '@/components/views/BaseConversionView'
+import { ConversionType, getTaskById } from '@/constants'
+import { UploadedFile, ProcessedFile } from '@/types'
 
 const CompressPdfView: React.FC = () => {
   const performConversion = async (

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react'
 import { UploadCloud, XCircle } from 'lucide-react'
-import { UploadedFile } from '../types'
-import Button from './Button'
+import { UploadedFile } from '@/types'
+import Button from '@/components/Button'
 
 interface FileUploadProps {
   onFilesChange: (files: UploadedFile[]) => void

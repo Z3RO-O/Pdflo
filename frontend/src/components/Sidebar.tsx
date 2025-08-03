@@ -3,8 +3,8 @@ import {
   ALL_CONVERSION_TASKS,
   TASK_CATEGORIES,
   ConversionType,
-} from '../constants'
-import { NavLink } from '../types'
+} from '@/constants'
+import { NavLink } from '@/types'
 
 interface SidebarProps {
   onTaskSelect: (taskId: ConversionType) => void

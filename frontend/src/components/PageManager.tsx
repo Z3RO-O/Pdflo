@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { DragDropContext, Draggable } from 'react-beautiful-dnd'
-import { StrictModeDroppable } from './StrictModeDroppable'
+import { StrictModeDroppable } from '@/components/StrictModeDroppable'
 import { Trash2, RotateCw, Move } from 'lucide-react'
 
 interface Page {
