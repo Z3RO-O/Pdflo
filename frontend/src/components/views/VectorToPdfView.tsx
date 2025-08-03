@@ -61,7 +61,7 @@ const VectorToPdfView: React.FC<VectorToPdfViewProps> = ({ task }) => {
   // Validate uploaded SVG file
   const validateVectorFile = (
     files: UploadedFile[],
-    options: Record<string, any>,
+    _options: Record<string, any>,
   ): string | null => {
     if (files.length === 0) {
       return 'Please upload an SVG file.'

@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
-import { Type, Download, Eye, EyeOff } from 'lucide-react'
+import { Type, Eye, EyeOff } from 'lucide-react'
 import { PDFDocument, rgb, degrees } from 'pdf-lib'
 
 interface WatermarkPdfViewProps {
@@ -69,7 +69,7 @@ const WatermarkPdfView: React.FC<WatermarkPdfViewProps> = ({ task }) => {
   const performConversion = useCallback(
     async (
       files: UploadedFile[],
-      options: Record<string, any>,
+      _options: Record<string, any>,
     ): Promise<ProcessedFile[]> => {
       if (files.length === 0) {
         throw new Error('Please upload a PDF file to add watermark.')
@@ -207,7 +207,7 @@ const WatermarkPdfView: React.FC<WatermarkPdfViewProps> = ({ task }) => {
   )
 
   const customValidation = useCallback(
-    (files: UploadedFile[], options: Record<string, any>): string | null => {
+    (files: UploadedFile[], _options: Record<string, any>): string | null => {
       if (files.length === 0) {
         return 'Please upload a PDF file to add watermark.'
       }

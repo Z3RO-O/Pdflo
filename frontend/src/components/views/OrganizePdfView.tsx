@@ -5,18 +5,18 @@ import { UploadedFile, ProcessedFile } from '@/types'
 import PageManager from '@/components/PageManager'
 import { Box, Typography, CircularProgress } from '@mui/material'
 
-interface PageValidationErrors {
-  pageOrder?: string
-  rotatePages?: string
-  deletePages?: string
-}
+// interface PageValidationErrors {
+//   pageOrder?: string
+//   rotatePages?: string
+//   deletePages?: string
+// }
 
 const OrganizePdfView: React.FC = () => {
   const [pageCount, setPageCount] = useState<number | null>(null)
   const [isLoadingPageCount, setIsLoadingPageCount] = useState(false)
   const [lastProcessedFile, setLastProcessedFile] = useState<string>('')
-  const [validationErrors, setValidationErrors] =
-    useState<PageValidationErrors>({})
+  // const [validationErrors, setValidationErrors] =
+  //   useState<PageValidationErrors>({})
   const [pageOperations, setPageOperations] = useState({
     pageOrder: '',
     rotatePages: '',
@@ -34,7 +34,7 @@ const OrganizePdfView: React.FC = () => {
       rotatePages: '',
       deletePages: '',
     })
-    setValidationErrors({})
+    // setValidationErrors({})
     setResetKey((prev) => prev + 1)
     setLastProcessedFile(fileKey)
 
@@ -141,7 +141,7 @@ const OrganizePdfView: React.FC = () => {
 
   const customValidation = (
     files: UploadedFile[],
-    options: Record<string, any>,
+    _options: Record<string, any>,
   ): string | null => {
     if (files.length === 0) {
       return 'No files uploaded'
@@ -163,7 +163,7 @@ const OrganizePdfView: React.FC = () => {
 
   const performOrganization = async (
     files: UploadedFile[],
-    options: Record<string, any>,
+    _options: Record<string, any>,
   ): Promise<ProcessedFile[]> => {
     if (files.length === 0) {
       throw new Error('No files uploaded')
@@ -241,7 +241,7 @@ const OrganizePdfView: React.FC = () => {
       rotatePages: '',
       deletePages: '',
     })
-    setValidationErrors({})
+    // setValidationErrors({})
     // Increment reset key to trigger PageManager reset
     setResetKey((prev) => prev + 1)
   }, [])

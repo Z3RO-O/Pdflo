@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useRef, DragEvent } from 'react'
+import React, { useState, useRef, DragEvent } from 'react'
 import * as pdfjsLib from 'pdfjs-dist'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
-import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
+import { ConversionTask, ProcessedFile } from '@/types'
 import Button from '@/components/Button'
 import ProgressBar from '@/components/ProgressBar'
 import {
   Download,
   AlertTriangle,
   CheckCircle,
-  Trash2,
   Eye,
   X,
 } from 'lucide-react'
@@ -104,7 +103,7 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [alerts, setAlerts] = useState<Alert[]>([])
   const alertIdCounter = useRef(0)
-  const [processedFiles, setProcessedFiles] = useState<ProcessedFile[]>([])
+  const [_processedFiles, setProcessedFiles] = useState<ProcessedFile[]>([])
   const [watermark, setWatermark] = useState<WatermarkSettings>({
     enabled: false,
     text: 'Confidential',
@@ -281,6 +280,7 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
         await page.render({
           canvasContext: context,
           viewport: viewport,
+          canvas: canvas,
         }).promise
 
         if (watermark.enabled) {

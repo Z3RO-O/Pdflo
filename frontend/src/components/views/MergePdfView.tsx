@@ -3,7 +3,6 @@ import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
 import {
   DragDropContext,
-  Droppable,
   Draggable,
   DropResult,
 } from 'react-beautiful-dnd'
@@ -199,7 +198,7 @@ const MergePdfView: React.FC<MergePdfViewProps> = ({ task }) => {
   return (
     <BaseConversionView
       task={task}
-      performConversion={(files, options) =>
+      performConversion={(_files, options) =>
         performMergeConversion(orderedFiles, options)
       }
       customValidation={() => validateMergeFiles(orderedFiles)}

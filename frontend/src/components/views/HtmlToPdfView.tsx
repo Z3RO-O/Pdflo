@@ -87,22 +87,6 @@ const InputCard = styled.div.withConfig({
   transition: border 0.2s;
 `
 
-const UrlInput = styled.input`
-  width: 100%;
-  padding: 0.85rem 1rem;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 1.08rem;
-  background-color: #fff;
-  color: #374151;
-  outline: none;
-  transition: border 0.2s;
-  &:focus {
-    border-color: var(--primary-color, #2563eb);
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
-  }
-`
-
 const CodeTextArea = styled.textarea.withConfig({
   shouldForwardProp: (prop) => prop !== 'darkMode',
 })<{ darkMode?: boolean }>`

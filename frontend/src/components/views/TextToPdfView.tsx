@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
-import { Download, AlertTriangle, CheckCircle, Trash2 } from 'lucide-react'
+import { Download, AlertTriangle, CheckCircle } from 'lucide-react'
 import Button from '@/components/Button'
 import ProgressBar from '@/components/ProgressBar'
 
@@ -27,7 +27,7 @@ const TextToPdfView: React.FC<TextToPdfViewProps> = ({ task }) => {
 
   const performTextFileToPdfConversion = async (
     files: UploadedFile[],
-    options: Record<string, any>,
+    _options: Record<string, any>,
   ): Promise<ProcessedFile[]> => {
     setFileBulkError(null)
     if (files.length === 0) return []
@@ -76,7 +76,7 @@ const TextToPdfView: React.FC<TextToPdfViewProps> = ({ task }) => {
 
   const validateTextFiles = (
     files: UploadedFile[],
-    options: Record<string, any>,
+    _options: Record<string, any>,
   ): string | null => {
     if (files.length === 0) {
       return 'Please upload at least one text file.'

@@ -9,7 +9,7 @@ interface PdfToVectorViewProps {
 const PdfToVectorView: React.FC<PdfToVectorViewProps> = ({ task }) => {
   const performPdfToVectorConversion = async (
     files: UploadedFile[],
-    options: Record<string, any>,
+    _options: Record<string, any>,
   ): Promise<ProcessedFile[]> => {
     await new Promise((resolve) =>
       setTimeout(resolve, 2200 + Math.random() * 800),

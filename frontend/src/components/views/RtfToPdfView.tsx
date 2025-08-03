@@ -61,7 +61,7 @@ const RtfToPdfView: React.FC<RtfToPdfViewProps> = ({ task }) => {
   // Validate uploaded RTF file
   const validateRtfFile = (
     files: UploadedFile[],
-    options: Record<string, any>,
+    _options: Record<string, any>,
   ): string | null => {
     if (files.length === 0) {
       return 'Please upload an RTF file.'

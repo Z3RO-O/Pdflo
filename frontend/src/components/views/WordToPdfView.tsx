@@ -11,7 +11,6 @@ const WordToPdfView: React.FC<WordToPdfViewProps> = ({ task }) => {
 
   const performWordToPdfConversion = async (
     files: UploadedFile[],
-    options: Record<string, any>,
   ): Promise<ProcessedFile[]> => {
     setBulkError(null)
     if (files.length === 0) return []

@@ -1,6 +1,5 @@
 import {
   ConversionTask,
-  ConversionOptionChoice,
   ConversionOption,
 } from '@/types'
 import {
@@ -10,33 +9,18 @@ import {
   FileSpreadsheet,
   Presentation,
   FileArchive,
-  Settings,
-  ShieldCheck,
   Merge,
-  Split,
   Type,
   Edit3,
   Lock,
-  Unlock,
   RefreshCw,
-  Layers,
   Scissors,
-  Info,
   ArrowRightLeft,
   FileType2,
   Grid,
-  RotateCcw,
-  Trash2,
   BookOpen,
   FileSignature,
   Shapes,
-  Combine,
-  FileJson,
-  FileUp,
-  FileDown,
-  FlipHorizontal,
-  SplitSquareHorizontal,
-  Spline,
 } from 'lucide-react' // Using lucide-react for icons
 
 // Using an enum for ConversionType to ensure type safety
@@ -85,12 +69,6 @@ const commonImageOutputFormats: { value: string; label: string }[] = [
   { value: 'jpg', label: 'JPG' },
   { value: 'png', label: 'PNG' },
   { value: 'webp', label: 'WEBP' },
-]
-
-const qualityOptions: ConversionOptionChoice[] = [
-  { value: 'low', label: 'Low (Smaller File)' },
-  { value: 'normal', label: 'Normal (Balanced)' },
-  { value: 'high', label: 'High (Best Quality)' },
 ]
 
 const pageSetupOptions: ConversionOption[] = [

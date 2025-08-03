@@ -9,7 +9,7 @@ interface AdSenseProps {
 
 const AdSense: React.FC<AdSenseProps> = ({
   adSlot,
-  adFormat = 'auto',
+  // adFormat = 'auto', // eslint-disable-line @typescript-eslint/no-unused-vars
   className = '',
   style = {},
 }) => {

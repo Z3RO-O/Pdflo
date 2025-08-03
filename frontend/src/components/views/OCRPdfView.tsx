@@ -44,14 +44,14 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
   const performConversion = useCallback(
     async (
       files: UploadedFile[],
-      options: Record<string, any>,
+      _options: Record<string, any>,
     ): Promise<ProcessedFile[]> => {
       if (files.length === 0) {
         throw new Error('No files provided for OCR processing')
       }
 
       const file = files[0]
-      const outputFileName = `ocr_${file.file.name}`
+      // const outputFileName = `ocr_${file.file.name}`
 
       try {
         setProcessingStatus('Loading PDF...')

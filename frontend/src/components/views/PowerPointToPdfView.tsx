@@ -11,7 +11,7 @@ const PowerPointToPdfView: React.FC<PowerPointToPdfViewProps> = ({ task }) => {
 
   const performPowerPointToPdfConversion = async (
     files: UploadedFile[],
-    options: Record<string, any>,
+    _options: Record<string, any>,
   ): Promise<ProcessedFile[]> => {
     setBulkError(null)
     if (files.length === 0) return []
@@ -60,7 +60,7 @@ const PowerPointToPdfView: React.FC<PowerPointToPdfViewProps> = ({ task }) => {
 
   const validatePowerPointFiles = (
     files: UploadedFile[],
-    options: Record<string, any>,
+    _options: Record<string, any>,
   ): string | null => {
     if (task.requiresFileUpload && files.length === 0) {
       return 'Please upload at least one PowerPoint file.'

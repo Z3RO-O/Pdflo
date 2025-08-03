@@ -63,29 +63,10 @@ const EditMetadataPdfView: React.FC<EditMetadataPdfViewProps> = ({ task }) => {
     }
   }, [])
 
-  const handleFileChange = useCallback(
-    (files: UploadedFile[]) => {
-      if (files.length > 0 && files[0].file.type === 'application/pdf') {
-        loadExistingMetadata(files[0].file)
-      } else {
-        // Reset metadata when no file or invalid file
-        setCurrentMetadata({ title: '', author: '', subject: '', keywords: '' })
-        setMetadataSettings({
-          title: '',
-          author: '',
-          subject: '',
-          keywords: '',
-        })
-        setMetadataLoaded(false)
-      }
-    },
-    [loadExistingMetadata],
-  )
-
   const performConversion = useCallback(
     async (
       files: UploadedFile[],
-      options: Record<string, any>,
+      _options: Record<string, any>,
     ): Promise<ProcessedFile[]> => {
       if (files.length === 0) {
         throw new Error('Please upload a PDF file to edit metadata.')
@@ -142,7 +123,7 @@ const EditMetadataPdfView: React.FC<EditMetadataPdfViewProps> = ({ task }) => {
   )
 
   const customValidation = useCallback(
-    (files: UploadedFile[], options: Record<string, any>): string | null => {
+    (files: UploadedFile[], _options: Record<string, any>): string | null => {
       if (files.length === 0) {
         return 'Please upload a PDF file to edit metadata.'
       }

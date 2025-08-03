@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Typography,
-  Paper,
   Card,
   CardContent,
   TextField,
@@ -12,7 +11,6 @@ import {
   CircularProgress,
   IconButton,
   Tooltip,
-  Divider,
   List,
   ListItem,
   ListItemText,
@@ -29,11 +27,10 @@ import {
   LastPage as LastPageIcon,
   ZoomIn as ZoomInIcon,
   ZoomOut as ZoomOutIcon,
-  Refresh as RefreshIcon,
   Clear as ClearIcon,
 } from '@mui/icons-material'
 import * as pdfjsLib from 'pdfjs-dist'
-import { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist'
+import { PDFDocumentProxy } from 'pdfjs-dist'
 import AdSense from '@/components/AdSense'
 
 // Set up PDF.js worker
@@ -191,6 +188,7 @@ const PdfToExcelView: React.FC<PdfToExcelViewProps> = ({
       await page.render({
         canvasContext: context,
         viewport: viewport,
+        canvas: canvas,
       }).promise
 
       console.log(
@@ -986,14 +984,14 @@ const PdfToExcelView: React.FC<PdfToExcelViewProps> = ({
                 </Typography>
 
                 <List dense>
-                  {detectedTables.map((table, index) => {
+                  {detectedTables.map((table, _index) => {
                     const tableKey = `${table.page}-${table.tableIndex}`
                     const isSelected = selectedTables.has(tableKey)
 
                     return (
                       <ListItem
                         key={tableKey}
-                        button
+                        component="button"
                         onClick={() => toggleTableSelection(tableKey)}
                         sx={{
                           border: isSelected
