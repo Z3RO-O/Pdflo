@@ -1,44 +1,53 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react'
 
 interface AdSenseProps {
-  adSlot: string;
-  adFormat?: 'auto' | 'fluid' | 'rectangle' | 'banner';
-  className?: string;
-  style?: React.CSSProperties;
+  adSlot: string
+  adFormat?: 'auto' | 'fluid' | 'rectangle' | 'banner'
+  className?: string
+  style?: React.CSSProperties
 }
 
-const AdSense: React.FC<AdSenseProps> = ({ adSlot, adFormat = 'auto', className = '', style = {} }) => {
-  const adRef = useRef<HTMLModElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isReady, setIsReady] = useState(false);
+const AdSense: React.FC<AdSenseProps> = ({
+  adSlot,
+  adFormat = 'auto',
+  className = '',
+  style = {},
+}) => {
+  const adRef = useRef<HTMLModElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
     // Wait for page to be fully loaded
     const initAdSense = () => {
-      if ((window as any).adsbygoogle && adRef.current && containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
+      if (
+        (window as any).adsbygoogle &&
+        adRef.current &&
+        containerRef.current
+      ) {
+        const rect = containerRef.current.getBoundingClientRect()
         if (rect.width > 0) {
-          setIsReady(true);
+          setIsReady(true)
         }
       }
-    };
+    }
 
     // Try to initialize immediately
-    initAdSense();
+    initAdSense()
 
     // If not ready, wait for window load event
     if (!isReady) {
       if (document.readyState === 'complete') {
         // Page already loaded, try again after a short delay
-        const timer = setTimeout(initAdSense, 500);
-        return () => clearTimeout(timer);
+        const timer = setTimeout(initAdSense, 500)
+        return () => clearTimeout(timer)
       } else {
         // Wait for page to load
-        window.addEventListener('load', initAdSense);
-        return () => window.removeEventListener('load', initAdSense);
+        window.addEventListener('load', initAdSense)
+        return () => window.removeEventListener('load', initAdSense)
       }
     }
-  }, [isReady]);
+  }, [isReady])
 
   useEffect(() => {
     if (isReady && adRef.current && (window as any).adsbygoogle) {
@@ -46,29 +55,29 @@ const AdSense: React.FC<AdSenseProps> = ({ adSlot, adFormat = 'auto', className 
         try {
           // Ensure the ad slot is not already filled
           if (adRef.current && !adRef.current.hasAttribute('data-ad-status')) {
-            (window as any).adsbygoogle.push({});
+            ;(window as any).adsbygoogle.push({})
           }
         } catch (error) {
-          console.log('AdSense initialization error:', error);
+          console.log('AdSense initialization error:', error)
           // Retry after 2 seconds if failed
-          setTimeout(loadAd, 2000);
+          setTimeout(loadAd, 2000)
         }
-      };
-      
-      loadAd();
+      }
+
+      loadAd()
     }
-  }, [isReady]);
+  }, [isReady])
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className={`ad-container ${className}`} 
+      className={`ad-container ${className}`}
       style={{
         minHeight: '250px',
         width: '100%',
         maxWidth: '728px',
         margin: '10px auto 0 auto',
-        ...style
+        ...style,
       }}
     >
       <div className="ad-label">
@@ -78,11 +87,11 @@ const AdSense: React.FC<AdSenseProps> = ({ adSlot, adFormat = 'auto', className 
         <ins
           ref={adRef}
           className="adsbygoogle"
-          style={{ 
+          style={{
             display: 'block',
             textAlign: 'center',
             minHeight: '250px',
-            width: '100%'
+            width: '100%',
           }}
           data-ad-client="ca-pub-2305974348753248"
           data-ad-slot={adSlot}
@@ -91,7 +100,7 @@ const AdSense: React.FC<AdSenseProps> = ({ adSlot, adFormat = 'auto', className 
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdSense; 
+export default AdSense

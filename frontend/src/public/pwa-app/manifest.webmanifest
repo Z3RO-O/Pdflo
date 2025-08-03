@@ -1,13 +1,13 @@
 {
-  "name": "PDF Converter Pro+",
-  "short_name": "PDF Converter Pro+",
+  "name": "Pdflo",
+  "short_name": "Pdflo",
   "start_url": "https://pdf.coderobo.org/",
   "display": "standalone",
   "background_color": "#05fcc5",
   "lang": "en",
   "scope": "https://pdf.coderobo.org/",
   "id": "https://pdf.coderobo.org/",
-  "description": "PDF Converter Pro+ is a tool that allows you to convert PDF files to Excel, Word, PowerPoint, and more.",
+  "description": "Pdflo is a tool that allows you to convert PDF files to Excel, Word, PowerPoint, and more.",
   "screenshots": [
     {
       "src": "https://pdf.coderobo.org/pwa-app/screenshots/desktop1.png",
@@ -23,9 +23,7 @@
     }
   ],
   "dir": "ltr",
-  "display_override": [
-    "window-controls-overlay"
-  ],
+  "display_override": ["window-controls-overlay"],
   "orientation": "portrait",
   "theme_color": "#05fcc5",
   "user_preferences": {
@@ -66,21 +64,12 @@
       "purpose": "maskable"
     }
   ],
-  "categories": [
-    "tools",
-    "utilities",
-    "education"
-  ],
+  "categories": ["tools", "utilities", "education"],
   "file_handlers": [
     {
       "action": "https://pdf.coderobo.org/",
       "accept": {
-        "image/*": [
-          ".jpg",
-          ".jpeg",
-          ".png",
-          ".webp"
-        ]
+        "image/*": [".jpg", ".jpeg", ".png", ".webp"]
       }
     }
   ],
@@ -92,11 +81,7 @@
       "files": [
         {
           "name": "image",
-          "accept": [
-            "image/jpeg",
-            "image/png",
-            "image/webp"
-          ]
+          "accept": ["image/jpeg", "image/png", "image/webp"]
         }
       ]
     }
@@ -128,15 +113,15 @@
     "TXT To PDF"
   ],
   "shortcuts": [
-      {
-        "name": "Convert PDF To Word",
-        "url": "/",
-        "description": "Start Converting PDF To Word"
-      },
-      {
-        "name": "Convert PDF To Excel",
-        "url": "/",
-        "description": "Start Converting PDF To Excel"
-      }
-    ]
+    {
+      "name": "Convert PDF To Word",
+      "url": "/",
+      "description": "Start Converting PDF To Word"
+    },
+    {
+      "name": "Convert PDF To Excel",
+      "url": "/",
+      "description": "Start Converting PDF To Excel"
+    }
+  ]
 }

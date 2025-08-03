@@ -1,77 +1,91 @@
-import React, { useState } from 'react';
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types';
-import BaseConversionView from './BaseConversionView';
+import React, { useState } from 'react'
+import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
+import BaseConversionView from './BaseConversionView'
 
 interface ExcelToPdfViewProps {
-  task: ConversionTask;
+  task: ConversionTask
 }
 
 const ExcelToPdfView: React.FC<ExcelToPdfViewProps> = ({ task }) => {
-  const [bulkError, setBulkError] = useState<string | null>(null);
+  const [bulkError, setBulkError] = useState<string | null>(null)
 
   const performExcelToPdfConversion = async (
     files: UploadedFile[],
-    options: Record<string, any>
+    options: Record<string, any>,
   ): Promise<ProcessedFile[]> => {
-    setBulkError(null);
-    if (files.length === 0) return [];
+    setBulkError(null)
+    if (files.length === 0) return []
     if (files.length > 3) {
-      setBulkError('Maximum 3 files supported in bulk conversion.');
-      throw new Error('Maximum 3 files supported in bulk conversion.');
+      setBulkError('Maximum 3 files supported in bulk conversion.')
+      throw new Error('Maximum 3 files supported in bulk conversion.')
     }
-    const results: ProcessedFile[] = [];
+    const results: ProcessedFile[] = []
     for (const uploadedFile of files) {
-      const formData = new FormData();
-      formData.append('file', uploadedFile.file);
-      let pdfBlob: Blob | null = null;
-      let pdfSize = 0;
+      const formData = new FormData()
+      formData.append('file', uploadedFile.file)
+      let pdfBlob: Blob | null = null
+      let pdfSize = 0
       try {
         const response = await fetch('/convert/excel-to-pdf', {
           method: 'POST',
           body: formData,
-        });
+        })
         if (!response.ok) {
-          const error = await response.json().catch(() => ({}));
-          throw new Error(error.error || 'Failed to convert file');
+          const error = await response.json().catch(() => ({}))
+          throw new Error(error.error || 'Failed to convert file')
         }
-        pdfBlob = await response.blob();
-        pdfSize = pdfBlob.size;
+        pdfBlob = await response.blob()
+        pdfSize = pdfBlob.size
       } catch (err: any) {
-        throw new Error(`Failed to convert ${uploadedFile.file.name}: ${err.message}`);
+        throw new Error(
+          `Failed to convert ${uploadedFile.file.name}: ${err.message}`,
+        )
       }
-      const originalFileName = uploadedFile.file.name.substring(0, uploadedFile.file.name.lastIndexOf('.')) || uploadedFile.file.name;
-      const blobUrl = URL.createObjectURL(pdfBlob!);
+      const originalFileName =
+        uploadedFile.file.name.substring(
+          0,
+          uploadedFile.file.name.lastIndexOf('.'),
+        ) || uploadedFile.file.name
+      const blobUrl = URL.createObjectURL(pdfBlob!)
       results.push({
         id: `processed-${uploadedFile.id}`,
         name: `${originalFileName}.pdf`,
         type: 'PDF',
         size: `${(pdfSize / 1024 / 1024).toFixed(2)}MB`,
         downloadUrl: blobUrl,
-      });
+      })
     }
-    return results;
-  };
+    return results
+  }
 
-  const validateExcelFiles = (files: UploadedFile[], options: Record<string, any>): string | null => {
+  const validateExcelFiles = (
+    files: UploadedFile[],
+    options: Record<string, any>,
+  ): string | null => {
     if (task.requiresFileUpload && files.length === 0) {
-      return "Please upload at least one Excel file.";
+      return 'Please upload at least one Excel file.'
     }
     if (files.length > 3) {
-      return 'Maximum 3 files supported in bulk conversion.';
+      return 'Maximum 3 files supported in bulk conversion.'
     }
     const acceptedMimeTypes = [
       'application/vnd.ms-excel', // .xls
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' // .xlsx
-    ];
-    const acceptedExtensions = ['.xls', '.xlsx'];
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+    ]
+    const acceptedExtensions = ['.xls', '.xlsx']
     for (const uploadedFile of files) {
-      const fileExtension = uploadedFile.file.name.substring(uploadedFile.file.name.lastIndexOf('.')).toLowerCase();
-      if (!acceptedMimeTypes.includes(uploadedFile.file.type) && !acceptedExtensions.includes(fileExtension)) {
-        return `File "${uploadedFile.file.name}" is not a supported Excel file. Please upload .xls or .xlsx files.`;
+      const fileExtension = uploadedFile.file.name
+        .substring(uploadedFile.file.name.lastIndexOf('.'))
+        .toLowerCase()
+      if (
+        !acceptedMimeTypes.includes(uploadedFile.file.type) &&
+        !acceptedExtensions.includes(fileExtension)
+      ) {
+        return `File "${uploadedFile.file.name}" is not a supported Excel file. Please upload .xls or .xlsx files.`
       }
     }
-    return null;
-  };
+    return null
+  }
 
   return (
     <>
@@ -86,7 +100,7 @@ const ExcelToPdfView: React.FC<ExcelToPdfViewProps> = ({ task }) => {
         customValidation={validateExcelFiles}
       />
     </>
-  );
-};
+  )
+}
 
-export default ExcelToPdfView; 
+export default ExcelToPdfView

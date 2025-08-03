@@ -813,7 +813,7 @@ def pdf_to_epub(pdf_file_path, epub_file_path, options=None):
         book.set_identifier(f"pdf-conversion-{os.path.basename(pdf_file_path)}")
         book.set_title(custom_title or f"Converted from {os.path.basename(pdf_file_path)}")
         book.set_language('en')
-        book.add_author(custom_author or 'PDF Converter')
+        book.add_author(custom_author or 'Pdflo')
         
         # Extract text and images from PDF
         chapters = []

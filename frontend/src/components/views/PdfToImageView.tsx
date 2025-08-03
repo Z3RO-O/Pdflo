@@ -1,157 +1,188 @@
-import React, { useState, useEffect, useRef, DragEvent } from 'react';
-import * as pdfjsLib from 'pdfjs-dist';
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types';
-import Button from '../Button';
-import ProgressBar from '../ProgressBar';
-import { Download, AlertTriangle, CheckCircle, Trash2, Eye, X } from 'lucide-react';
-import AdSense from '../AdSense';
+import React, { useState, useEffect, useRef, DragEvent } from 'react'
+import * as pdfjsLib from 'pdfjs-dist'
+import JSZip from 'jszip'
+import { saveAs } from 'file-saver'
+import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
+import Button from '../Button'
+import ProgressBar from '../ProgressBar'
+import {
+  Download,
+  AlertTriangle,
+  CheckCircle,
+  Trash2,
+  Eye,
+  X,
+} from 'lucide-react'
+import AdSense from '../AdSense'
 
 // Initialize PDF.js worker - use local worker file
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js'
 
 interface PdfToImageViewProps {
-  task: ConversionTask;
+  task: ConversionTask
 }
 
-type ImageQuality = 'hd' | 'medium' | 'email';
-type ImageFormat = 'jpg' | 'png' | 'webp';
+type ImageQuality = 'hd' | 'medium' | 'email'
+type ImageFormat = 'jpg' | 'png' | 'webp'
 
 interface QualitySettings {
-  scale: number;
-  compression: number;
+  scale: number
+  compression: number
 }
 
 const qualitySettings: Record<ImageQuality, QualitySettings> = {
   hd: { scale: 2.0, compression: 1.0 },
   medium: { scale: 1.5, compression: 0.8 },
-  email: { scale: 1.0, compression: 0.6 }
-};
+  email: { scale: 1.0, compression: 0.6 },
+}
 
 const formatMimeTypes: Record<ImageFormat, string> = {
   jpg: 'image/jpeg',
   png: 'image/png',
-  webp: 'image/webp'
-};
+  webp: 'image/webp',
+}
 
 interface Alert {
-  id: number;
-  type: 'error' | 'warning' | 'success';
-  message: string;
+  id: number
+  type: 'error' | 'warning' | 'success'
+  message: string
 }
 
 interface WatermarkSettings {
-  enabled: boolean;
-  text: string;
-  position: 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center' | 'center' | 'diagonal';
-  opacity: number;
-  fontSize: number;
+  enabled: boolean
+  text: string
+  position:
+    | 'top-left'
+    | 'top-right'
+    | 'top-center'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'bottom-center'
+    | 'center'
+    | 'diagonal'
+  opacity: number
+  fontSize: number
 }
 
 interface PageNumberSettings {
-  enabled: boolean;
-  position: 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
-  fontSize: number;
-  prefix: string;
+  enabled: boolean
+  position:
+    | 'top-left'
+    | 'top-right'
+    | 'top-center'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'bottom-center'
+  fontSize: number
+  prefix: string
 }
 
 interface ImageState {
-  url: string;
-  originalUrl: string;
+  url: string
+  originalUrl: string
 }
 
 const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
-  const [pdfFile, setPdfFile] = useState<File | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isPdfLoading, setIsPdfLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const [images, setImages] = useState<string[]>([]);
-  const [startPage, setStartPage] = useState(1);
-  const [endPage, setEndPage] = useState(1);
-  const [pdfLoaded, setPdfLoaded] = useState(false);
-  const [imageQuality, setImageQuality] = useState<ImageQuality>('medium');
-  const [imageFormat, setImageFormat] = useState<ImageFormat>('jpg');
-  const [selectedImage, setSelectedImage] = useState<{ url: string; page: number; index?: number } | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [alerts, setAlerts] = useState<Alert[]>([]);
-  const alertIdCounter = useRef(0);
-  const [processedFiles, setProcessedFiles] = useState<ProcessedFile[]>([]);
+  const [pdfFile, setPdfFile] = useState<File | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isPdfLoading, setIsPdfLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [progress, setProgress] = useState(0)
+  const [images, setImages] = useState<string[]>([])
+  const [startPage, setStartPage] = useState(1)
+  const [endPage, setEndPage] = useState(1)
+  const [pdfLoaded, setPdfLoaded] = useState(false)
+  const [imageQuality, setImageQuality] = useState<ImageQuality>('medium')
+  const [imageFormat, setImageFormat] = useState<ImageFormat>('jpg')
+  const [selectedImage, setSelectedImage] = useState<{
+    url: string
+    page: number
+    index?: number
+  } | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [alerts, setAlerts] = useState<Alert[]>([])
+  const alertIdCounter = useRef(0)
+  const [processedFiles, setProcessedFiles] = useState<ProcessedFile[]>([])
   const [watermark, setWatermark] = useState<WatermarkSettings>({
     enabled: false,
     text: 'Confidential',
     position: 'diagonal',
     opacity: 0.3,
-    fontSize: 24
-  });
+    fontSize: 24,
+  })
 
   const [pageNumber, setPageNumber] = useState<PageNumberSettings>({
     enabled: false,
     position: 'bottom-right',
     fontSize: 16,
-    prefix: 'Page '
-  });
+    prefix: 'Page ',
+  })
 
-  const [processedImages, setProcessedImages] = useState<ImageState[]>([]);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [processedImages, setProcessedImages] = useState<ImageState[]>([])
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const showAlert = (message: string, type: 'error' | 'warning' | 'success' = 'error') => {
-    const id = alertIdCounter.current++;
-    setAlerts(prev => [...prev, { id, type, message }]);
+  const showAlert = (
+    message: string,
+    type: 'error' | 'warning' | 'success' = 'error',
+  ) => {
+    const id = alertIdCounter.current++
+    setAlerts((prev) => [...prev, { id, type, message }])
     setTimeout(() => {
-      removeAlert(id);
-    }, 5000);
-  };
+      removeAlert(id)
+    }, 5000)
+  }
 
   const removeAlert = (id: number) => {
-    setAlerts(prev => prev.filter(alert => alert.id !== id));
-  };
+    setAlerts((prev) => prev.filter((alert) => alert.id !== id))
+  }
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0]
     if (file && file.type === 'application/pdf') {
-      setPdfFile(file);
-      setImages([]);
-      setProcessedFiles([]);
-      setProgress(0);
-      setCurrentPage(0);
-      setIsPdfLoading(true);
-      setPdfLoaded(false);
-      
+      setPdfFile(file)
+      setImages([])
+      setProcessedFiles([])
+      setProgress(0)
+      setCurrentPage(0)
+      setIsPdfLoading(true)
+      setPdfLoaded(false)
+
       try {
-        const arrayBuffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument(new Uint8Array(arrayBuffer)).promise;
-        setTotalPages(pdf.numPages);
-        setEndPage(pdf.numPages);
-        setPdfLoaded(true);
-        showAlert('PDF loaded successfully!', 'success');
+        const arrayBuffer = await file.arrayBuffer()
+        const pdf = await pdfjsLib.getDocument(new Uint8Array(arrayBuffer))
+          .promise
+        setTotalPages(pdf.numPages)
+        setEndPage(pdf.numPages)
+        setPdfLoaded(true)
+        showAlert('PDF loaded successfully!', 'success')
       } catch (error) {
-        console.error('Error loading PDF:', error);
-        showAlert('Error loading PDF. Please try again.');
+        console.error('Error loading PDF:', error)
+        showAlert('Error loading PDF. Please try again.')
       } finally {
-        setIsPdfLoading(false);
+        setIsPdfLoading(false)
       }
     }
-  };
+  }
 
   const validatePageRange = () => {
     if (startPage < 1) {
-      showAlert('Start page cannot be less than 1');
-      return false;
+      showAlert('Start page cannot be less than 1')
+      return false
     }
     if (endPage > totalPages) {
-      showAlert(`End page cannot be greater than total pages (${totalPages})`);
-      return false;
+      showAlert(`End page cannot be greater than total pages (${totalPages})`)
+      return false
     }
     if (startPage > endPage) {
-      showAlert('Start page cannot be greater than end page');
-      return false;
+      showAlert('Start page cannot be greater than end page')
+      return false
     }
-    return true;
-  };
+    return true
+  }
 
   const drawTextOnCanvas = (
     context: CanvasRenderingContext2D,
@@ -160,96 +191,97 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
     fontSize: number,
     opacity: number,
     canvasWidth: number,
-    canvasHeight: number
+    canvasHeight: number,
   ) => {
-    context.save();
-    context.globalAlpha = opacity;
-    context.font = `${fontSize}px Arial`;
-    context.fillStyle = '#000000';
-    
-    const metrics = context.measureText(text);
-    const textWidth = metrics.width;
-    const textHeight = fontSize;
-    const padding = 20;
-    
-    let x = padding;
-    let y = padding + textHeight;
-    
+    context.save()
+    context.globalAlpha = opacity
+    context.font = `${fontSize}px Arial`
+    context.fillStyle = '#000000'
+
+    const metrics = context.measureText(text)
+    const textWidth = metrics.width
+    const textHeight = fontSize
+    const padding = 20
+
+    let x = padding
+    let y = padding + textHeight
+
     if (position === 'diagonal') {
-      context.translate(canvasWidth / 2, canvasHeight / 2);
-      context.rotate(Math.PI / 4);
-      x = -textWidth / 2;
-      y = 0;
+      context.translate(canvasWidth / 2, canvasHeight / 2)
+      context.rotate(Math.PI / 4)
+      x = -textWidth / 2
+      y = 0
     } else {
       switch (position) {
         case 'top-right':
-          x = canvasWidth - textWidth - padding;
-          y = padding + textHeight;
-          break;
+          x = canvasWidth - textWidth - padding
+          y = padding + textHeight
+          break
         case 'top-center':
-          x = (canvasWidth - textWidth) / 2;
-          y = padding + textHeight;
-          break;
+          x = (canvasWidth - textWidth) / 2
+          y = padding + textHeight
+          break
         case 'bottom-left':
-          x = padding;
-          y = canvasHeight - padding;
-          break;
+          x = padding
+          y = canvasHeight - padding
+          break
         case 'bottom-center':
-          x = (canvasWidth - textWidth) / 2;
-          y = canvasHeight - padding;
-          break;
+          x = (canvasWidth - textWidth) / 2
+          y = canvasHeight - padding
+          break
         case 'bottom-right':
-          x = canvasWidth - textWidth - padding;
-          y = canvasHeight - padding;
-          break;
+          x = canvasWidth - textWidth - padding
+          y = canvasHeight - padding
+          break
         case 'center':
-          x = (canvasWidth - textWidth) / 2;
-          y = canvasHeight / 2;
-          break;
+          x = (canvasWidth - textWidth) / 2
+          y = canvasHeight / 2
+          break
       }
     }
-    
-    context.fillText(text, x, y);
-    context.restore();
-  };
+
+    context.fillText(text, x, y)
+    context.restore()
+  }
 
   const performPdfToImageConversion = async () => {
-    if (!pdfFile || !validatePageRange()) return;
+    if (!pdfFile || !validatePageRange()) return
 
     try {
-      setIsLoading(true);
-      setProgress(0);
-      setCurrentPage(0);
-      setProcessedFiles([]);
-      setImages([]);
-      setProcessedImages([]);
+      setIsLoading(true)
+      setProgress(0)
+      setCurrentPage(0)
+      setProcessedFiles([])
+      setImages([])
+      setProcessedImages([])
 
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument(new Uint8Array(arrayBuffer)).promise;
-      const newImages: string[] = [];
-      const newProcessedImages: ImageState[] = [];
-      const newProcessedFiles: ProcessedFile[] = [];
+      const arrayBuffer = await pdfFile.arrayBuffer()
+      const pdf = await pdfjsLib.getDocument(new Uint8Array(arrayBuffer))
+        .promise
+      const newImages: string[] = []
+      const newProcessedImages: ImageState[] = []
+      const newProcessedFiles: ProcessedFile[] = []
 
-      const { scale, compression } = qualitySettings[imageQuality];
+      const { scale, compression } = qualitySettings[imageQuality]
 
       for (let pageNum = startPage; pageNum <= endPage; pageNum++) {
-        setCurrentPage(pageNum);
-        const page = await pdf.getPage(pageNum);
-        const viewport = page.getViewport({ scale });
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
+        setCurrentPage(pageNum)
+        const page = await pdf.getPage(pageNum)
+        const viewport = page.getViewport({ scale })
+        const canvas = document.createElement('canvas')
+        const context = canvas.getContext('2d')
 
         if (!context) {
-          throw new Error('Canvas context not available');
+          throw new Error('Canvas context not available')
         }
 
-        canvas.height = viewport.height;
-        canvas.width = viewport.width;
+        canvas.height = viewport.height
+        canvas.width = viewport.width
 
         await page.render({
           canvasContext: context,
-          viewport: viewport
-        }).promise;
+          viewport: viewport,
+        }).promise
 
         if (watermark.enabled) {
           drawTextOnCanvas(
@@ -259,12 +291,12 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
             watermark.fontSize,
             watermark.opacity,
             canvas.width,
-            canvas.height
-          );
+            canvas.height,
+          )
         }
 
         if (pageNumber.enabled) {
-          const pageText = `${pageNumber.prefix}${pageNum}`;
+          const pageText = `${pageNumber.prefix}${pageNum}`
           drawTextOnCanvas(
             context,
             pageText,
@@ -272,20 +304,23 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
             pageNumber.fontSize,
             1.0,
             canvas.width,
-            canvas.height
-          );
+            canvas.height,
+          )
         }
 
-        const imageUrl = canvas.toDataURL(formatMimeTypes[imageFormat], compression);
-        newImages.push(imageUrl);
+        const imageUrl = canvas.toDataURL(
+          formatMimeTypes[imageFormat],
+          compression,
+        )
+        newImages.push(imageUrl)
         newProcessedImages.push({
           url: imageUrl,
-          originalUrl: imageUrl
-        });
+          originalUrl: imageUrl,
+        })
 
-        const res = await fetch(imageUrl);
-        const blob = await res.blob();
-        const blobUrl = URL.createObjectURL(blob);
+        const res = await fetch(imageUrl)
+        const blob = await res.blob()
+        const blobUrl = URL.createObjectURL(blob)
 
         newProcessedFiles.push({
           id: `processed-page${pageNum}`,
@@ -293,153 +328,167 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
           type: imageFormat.toUpperCase(),
           size: `${(blob.size / (1024 * 1024)).toFixed(2)}MB`,
           downloadUrl: blobUrl,
-        });
+        })
 
-        setProgress(((pageNum - startPage + 1) / (endPage - startPage + 1)) * 100);
+        setProgress(
+          ((pageNum - startPage + 1) / (endPage - startPage + 1)) * 100,
+        )
       }
 
-      setImages(newImages);
-      setProcessedImages(newProcessedImages);
-      setProcessedFiles(newProcessedFiles);
-      showAlert('Images converted successfully!', 'success');
+      setImages(newImages)
+      setProcessedImages(newProcessedImages)
+      setProcessedFiles(newProcessedFiles)
+      showAlert('Images converted successfully!', 'success')
     } catch (error) {
-      console.error('Error converting PDF:', error);
-      showAlert('Error converting PDF. Please try again.');
+      console.error('Error converting PDF:', error)
+      showAlert('Error converting PDF. Please try again.')
     } finally {
-      setIsLoading(false);
-      setProgress(0);
-      setCurrentPage(0);
+      setIsLoading(false)
+      setProgress(0)
+      setCurrentPage(0)
     }
-  };
+  }
 
   const downloadImage = (imageUrl: string, index: number) => {
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = `page-${startPage + index}.${imageFormat}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+    const link = document.createElement('a')
+    link.href = imageUrl
+    link.download = `page-${startPage + index}.${imageFormat}`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   const downloadAllImages = async () => {
     try {
-      setIsLoading(true);
-      setProgress(0);
-      
-      const zip = new JSZip();
-      const imageFolder = zip.folder("converted-images");
-      
+      setIsLoading(true)
+      setProgress(0)
+
+      const zip = new JSZip()
+      const imageFolder = zip.folder('converted-images')
+
       if (!imageFolder) {
-        throw new Error("Failed to create ZIP folder");
+        throw new Error('Failed to create ZIP folder')
       }
 
       for (let i = 0; i < images.length; i++) {
-        const imageUrl = images[i];
-        const imageName = `page-${startPage + i}.${imageFormat}`;
-        
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
-        
-        imageFolder.file(imageName, blob);
-        setProgress((i + 1) / images.length * 100);
+        const imageUrl = images[i]
+        const imageName = `page-${startPage + i}.${imageFormat}`
+
+        const response = await fetch(imageUrl)
+        const blob = await response.blob()
+
+        imageFolder.file(imageName, blob)
+        setProgress(((i + 1) / images.length) * 100)
       }
 
-      const content = await zip.generateAsync({
-        type: "blob",
-        compression: "DEFLATE",
-        compressionOptions: {
-          level: 6
-        }
-      }, (metadata: { percent: number }) => {
-        setProgress(metadata.percent);
-      });
+      const content = await zip.generateAsync(
+        {
+          type: 'blob',
+          compression: 'DEFLATE',
+          compressionOptions: {
+            level: 6,
+          },
+        },
+        (metadata: { percent: number }) => {
+          setProgress(metadata.percent)
+        },
+      )
 
-      const fileName = pdfFile ? `${pdfFile.name.replace('.pdf', '')}-pages-${startPage}-${endPage}.zip` : 'converted-images.zip';
-      saveAs(content, fileName);
-      showAlert('ZIP file downloaded successfully!', 'success');
+      const fileName = pdfFile
+        ? `${pdfFile.name.replace('.pdf', '')}-pages-${startPage}-${endPage}.zip`
+        : 'converted-images.zip'
+      saveAs(content, fileName)
+      showAlert('ZIP file downloaded successfully!', 'success')
     } catch (error) {
-      console.error('Error creating ZIP:', error);
-      showAlert('Error creating ZIP file. Please try again.');
+      console.error('Error creating ZIP:', error)
+      showAlert('Error creating ZIP file. Please try again.')
     } finally {
-      setIsLoading(false);
-      setProgress(0);
+      setIsLoading(false)
+      setProgress(0)
     }
-  };
+  }
 
   const handleStartPageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value) || 1;
-    setStartPage(value);
-  };
+    const value = parseInt(e.target.value) || 1
+    setStartPage(value)
+  }
 
   const handleEndPageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value) || 1;
-    setEndPage(value);
-  };
+    const value = parseInt(e.target.value) || 1
+    setEndPage(value)
+  }
 
   const handleQualityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setImageQuality(e.target.value as ImageQuality);
-  };
+    setImageQuality(e.target.value as ImageQuality)
+  }
 
   const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setImageFormat(e.target.value as ImageFormat);
-  };
+    setImageFormat(e.target.value as ImageFormat)
+  }
 
-  const openImageModal = (imageUrl: string, pageNumber: number, index: number) => {
-    setSelectedImage({ url: imageUrl, page: pageNumber, index });
-  };
+  const openImageModal = (
+    imageUrl: string,
+    pageNumber: number,
+    index: number,
+  ) => {
+    setSelectedImage({ url: imageUrl, page: pageNumber, index })
+  }
 
   const closeImageModal = () => {
-    setSelectedImage(null);
-  };
+    setSelectedImage(null)
+  }
 
   const handleDragEnter = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  };
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(true)
+  }
 
   const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-  };
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
+  }
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
+    e.preventDefault()
+    e.stopPropagation()
+  }
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
 
-    const files = e.dataTransfer.files;
+    const files = e.dataTransfer.files
     if (files && files.length > 0) {
-      handleFileChange({ target: { files } } as any);
+      handleFileChange({ target: { files } } as any)
     }
-  };
+  }
 
   const triggerFileInput = () => {
-    fileInputRef.current?.click();
-  };
+    fileInputRef.current?.click()
+  }
 
   const handleWatermarkChange = (changes: Partial<WatermarkSettings>) => {
-    setWatermark(prev => ({ ...prev, ...changes }));
-  };
+    setWatermark((prev) => ({ ...prev, ...changes }))
+  }
 
   const handlePageNumberChange = (changes: Partial<PageNumberSettings>) => {
-    setPageNumber(prev => ({ ...prev, ...changes }));
-  };
+    setPageNumber((prev) => ({ ...prev, ...changes }))
+  }
 
   const renderImageCard = (image: ImageState, index: number) => (
-    <div key={index} className="bg-white dark:bg-neutral-800 rounded-lg shadow-md overflow-hidden">
-      <div 
+    <div
+      key={index}
+      className="bg-white dark:bg-neutral-800 rounded-lg shadow-md overflow-hidden"
+    >
+      <div
         className="relative cursor-pointer group"
         onClick={() => openImageModal(image.url, startPage + index, index)}
       >
-        <img 
-          src={image.url} 
+        <img
+          src={image.url}
           alt={`Page ${startPage + index}`}
           className="w-full h-48 object-cover"
         />
@@ -464,49 +513,60 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
         </Button>
       </div>
     </div>
-  );
+  )
 
   const handlePrevPage = () => {
-    if (!selectedImage || selectedImage.index === undefined) return;
-    const prevIndex = selectedImage.index - 1;
+    if (!selectedImage || selectedImage.index === undefined) return
+    const prevIndex = selectedImage.index - 1
     if (prevIndex >= 0) {
-      const prevImage = processedImages[prevIndex];
+      const prevImage = processedImages[prevIndex]
       setSelectedImage({
         url: prevImage.url,
         page: startPage + prevIndex,
-        index: prevIndex
-      });
+        index: prevIndex,
+      })
     }
-  };
+  }
 
   const handleNextPage = () => {
-    if (!selectedImage || selectedImage.index === undefined) return;
-    const nextIndex = selectedImage.index + 1;
+    if (!selectedImage || selectedImage.index === undefined) return
+    const nextIndex = selectedImage.index + 1
     if (nextIndex < processedImages.length) {
-      const nextImage = processedImages[nextIndex];
+      const nextImage = processedImages[nextIndex]
       setSelectedImage({
         url: nextImage.url,
         page: startPage + nextIndex,
-        index: nextIndex
-      });
+        index: nextIndex,
+      })
     }
-  };
+  }
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
       {/* Alerts */}
       <div className="fixed top-4 right-4 z-50 space-y-2">
-        {alerts.map(alert => (
-          <div key={alert.id} className={`p-4 rounded-lg shadow-lg max-w-sm ${
-            alert.type === 'error' ? 'bg-red-100 border border-red-300 text-red-700' :
-            alert.type === 'warning' ? 'bg-yellow-100 border border-yellow-300 text-yellow-700' :
-            'bg-green-100 border border-green-300 text-green-700'
-          }`}>
+        {alerts.map((alert) => (
+          <div
+            key={alert.id}
+            className={`p-4 rounded-lg shadow-lg max-w-sm ${
+              alert.type === 'error'
+                ? 'bg-red-100 border border-red-300 text-red-700'
+                : alert.type === 'warning'
+                  ? 'bg-yellow-100 border border-yellow-300 text-yellow-700'
+                  : 'bg-green-100 border border-green-300 text-green-700'
+            }`}
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                {alert.type === 'error' && <AlertTriangle className="w-5 h-5 mr-2" />}
-                {alert.type === 'warning' && <AlertTriangle className="w-5 h-5 mr-2" />}
-                {alert.type === 'success' && <CheckCircle className="w-5 h-5 mr-2" />}
+                {alert.type === 'error' && (
+                  <AlertTriangle className="w-5 h-5 mr-2" />
+                )}
+                {alert.type === 'warning' && (
+                  <AlertTriangle className="w-5 h-5 mr-2" />
+                )}
+                {alert.type === 'success' && (
+                  <CheckCircle className="w-5 h-5 mr-2" />
+                )}
                 <span className="text-sm font-medium">{alert.message}</span>
               </div>
               <button
@@ -523,19 +583,25 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
       {/* Header */}
       <div className="p-6 bg-white dark:bg-neutral-900 shadow-xl rounded-lg">
         <div className="flex items-center space-x-3 mb-4">
-          <span className="text-primary dark:text-secondary-light">{task.icon}</span>
-          <h2 className="text-2xl font-semibold text-neutral-800 dark:text-neutral-100">{task.name}</h2>
+          <span className="text-primary dark:text-secondary-light">
+            {task.icon}
+          </span>
+          <h2 className="text-2xl font-semibold text-neutral-800 dark:text-neutral-100">
+            {task.name}
+          </h2>
         </div>
-        <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-6">{task.description}</p>
+        <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-6">
+          {task.description}
+        </p>
 
         {/* File Upload */}
         <div
           className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-            isDragging 
-              ? 'border-primary bg-primary/5' 
+            isDragging
+              ? 'border-primary bg-primary/5'
               : isPdfLoading
-              ? 'border-neutral-400 dark:border-neutral-500 bg-neutral-50 dark:bg-neutral-800'
-              : 'border-neutral-500 dark:border-neutral-400 hover:border-primary'
+                ? 'border-neutral-400 dark:border-neutral-500 bg-neutral-50 dark:bg-neutral-800'
+                : 'border-neutral-500 dark:border-neutral-400 hover:border-primary'
           }`}
           onDragEnter={!isPdfLoading ? handleDragEnter : undefined}
           onDragOver={!isPdfLoading ? handleDragOver : undefined}
@@ -548,11 +614,13 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
             {isPdfLoading ? 'Loading PDF...' : 'Drag & Drop your PDF here'}
           </div>
           <div className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
-            {isPdfLoading ? 'Please wait while we prepare the conversion options' : 'or'}
+            {isPdfLoading
+              ? 'Please wait while we prepare the conversion options'
+              : 'or'}
           </div>
-          <label 
+          <label
             className={`inline-flex items-center px-4 py-2 rounded-lg transition-colors ${
-              isPdfLoading 
+              isPdfLoading
                 ? 'bg-neutral-400 dark:bg-neutral-600 text-neutral-600 dark:text-neutral-400 cursor-not-allowed'
                 : 'bg-primary text-white hover:bg-primary/90 cursor-pointer'
             }`}
@@ -572,12 +640,18 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
           {pdfFile && (
             <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
               <div className="flex items-center">
-                <span className="text-green-600 dark:text-green-400 mr-2">📎</span>
-                <span className="text-sm text-green-700 dark:text-green-300">{pdfFile.name}</span>
+                <span className="text-green-600 dark:text-green-400 mr-2">
+                  📎
+                </span>
+                <span className="text-sm text-green-700 dark:text-green-300">
+                  {pdfFile.name}
+                </span>
                 {isPdfLoading && (
                   <div className="ml-3 flex items-center space-x-2">
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-600 dark:border-green-400"></div>
-                    <span className="text-xs text-green-600 dark:text-green-400">Loading...</span>
+                    <span className="text-xs text-green-600 dark:text-green-400">
+                      Loading...
+                    </span>
                   </div>
                 )}
               </div>
@@ -593,12 +667,16 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                 <div className="flex items-center space-x-3">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 dark:border-blue-400"></div>
                   <p className="text-sm text-blue-700 dark:text-blue-300">
-                    <strong>Loading PDF...</strong> Please wait while we prepare the conversion options.
+                    <strong>Loading PDF...</strong> Please wait while we prepare
+                    the conversion options.
                   </p>
                 </div>
                 <div className="w-full max-w-md">
                   <div className="bg-blue-200 dark:bg-blue-800 rounded-full h-2">
-                    <div className="bg-blue-600 dark:bg-blue-400 h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+                    <div
+                      className="bg-blue-600 dark:bg-blue-400 h-2 rounded-full animate-pulse"
+                      style={{ width: '60%' }}
+                    ></div>
                   </div>
                 </div>
                 <p className="text-xs text-blue-600 dark:text-blue-400">
@@ -608,12 +686,14 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
             </div>
           </div>
         )}
-        
+
         {pdfLoaded && (
           <div className="mt-6 space-y-6">
             <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
               <p className="text-sm text-blue-700 dark:text-blue-300">
-                <strong>Note:</strong> After changing any option, please click the <strong>"Convert Selected Pages to Images"</strong> button to apply it to the output images.
+                <strong>Note:</strong> After changing any option, please click
+                the <strong>"Convert Selected Pages to Images"</strong> button
+                to apply it to the output images.
               </p>
             </div>
 
@@ -672,8 +752,10 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                 </select>
                 <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
                   {imageQuality === 'hd' && 'Best quality, larger file size'}
-                  {imageQuality === 'medium' && 'Balanced quality and file size'}
-                  {imageQuality === 'email' && 'Reduced quality, smaller file size'}
+                  {imageQuality === 'medium' &&
+                    'Balanced quality and file size'}
+                  {imageQuality === 'email' &&
+                    'Reduced quality, smaller file size'}
                 </div>
               </div>
               <div>
@@ -688,12 +770,17 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                 >
                   <option value="jpg">JPG (Best for Photos)</option>
                   <option value="png">PNG (Best for Screenshots)</option>
-                  <option value="webp">WebP (Modern Format, Smaller Size)</option>
+                  <option value="webp">
+                    WebP (Modern Format, Smaller Size)
+                  </option>
                 </select>
                 <div className="mt-1 text-xs text-neutral-500 dark:text-neutral-400">
-                  {imageFormat === 'jpg' && 'Compressed format, ideal for photographs'}
-                  {imageFormat === 'png' && 'Lossless quality, larger file size'}
-                  {imageFormat === 'webp' && 'Modern format with excellent compression'}
+                  {imageFormat === 'jpg' &&
+                    'Compressed format, ideal for photographs'}
+                  {imageFormat === 'png' &&
+                    'Lossless quality, larger file size'}
+                  {imageFormat === 'webp' &&
+                    'Modern format with excellent compression'}
                 </div>
               </div>
             </div>
@@ -704,11 +791,15 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                 <input
                   type="checkbox"
                   checked={watermark.enabled}
-                  onChange={(e) => handleWatermarkChange({ enabled: e.target.checked })}
+                  onChange={(e) =>
+                    handleWatermarkChange({ enabled: e.target.checked })
+                  }
                   disabled={isLoading}
                   className="rounded border-neutral-300 dark:border-neutral-600 text-primary focus:ring-primary"
                 />
-                <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Add Watermark</span>
+                <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                  Add Watermark
+                </span>
               </label>
               {watermark.enabled && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -719,7 +810,9 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                     <input
                       type="text"
                       value={watermark.text}
-                      onChange={(e) => handleWatermarkChange({ text: e.target.value })}
+                      onChange={(e) =>
+                        handleWatermarkChange({ text: e.target.value })
+                      }
                       placeholder="Watermark text"
                       disabled={isLoading}
                       className="w-full px-3 py-2 border-2 border-neutral-500 dark:border-neutral-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-neutral-800 dark:text-neutral-100"
@@ -731,7 +824,11 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                     </label>
                     <select
                       value={watermark.position}
-                      onChange={(e) => handleWatermarkChange({ position: e.target.value as any })}
+                      onChange={(e) =>
+                        handleWatermarkChange({
+                          position: e.target.value as any,
+                        })
+                      }
                       disabled={isLoading}
                       className="w-full px-3 py-2 border-2 border-neutral-500 dark:border-neutral-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-neutral-800 dark:text-neutral-100"
                     >
@@ -755,7 +852,11 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                       max="1"
                       step="0.1"
                       value={watermark.opacity}
-                      onChange={(e) => handleWatermarkChange({ opacity: parseFloat(e.target.value) })}
+                      onChange={(e) =>
+                        handleWatermarkChange({
+                          opacity: parseFloat(e.target.value),
+                        })
+                      }
                       disabled={isLoading}
                       className="w-full"
                     />
@@ -770,7 +871,11 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                       max="72"
                       step="2"
                       value={watermark.fontSize}
-                      onChange={(e) => handleWatermarkChange({ fontSize: parseInt(e.target.value) })}
+                      onChange={(e) =>
+                        handleWatermarkChange({
+                          fontSize: parseInt(e.target.value),
+                        })
+                      }
                       disabled={isLoading}
                       className="w-full"
                     />
@@ -785,11 +890,15 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                 <input
                   type="checkbox"
                   checked={pageNumber.enabled}
-                  onChange={(e) => handlePageNumberChange({ enabled: e.target.checked })}
+                  onChange={(e) =>
+                    handlePageNumberChange({ enabled: e.target.checked })
+                  }
                   disabled={isLoading}
                   className="rounded border-neutral-300 dark:border-neutral-600 text-primary focus:ring-primary"
                 />
-                <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">Add Page Numbers</span>
+                <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+                  Add Page Numbers
+                </span>
               </label>
               {pageNumber.enabled && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -800,7 +909,9 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                     <input
                       type="text"
                       value={pageNumber.prefix}
-                      onChange={(e) => handlePageNumberChange({ prefix: e.target.value })}
+                      onChange={(e) =>
+                        handlePageNumberChange({ prefix: e.target.value })
+                      }
                       placeholder="Page number prefix"
                       disabled={isLoading}
                       className="w-full px-3 py-2 border-2 border-neutral-500 dark:border-neutral-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-neutral-800 dark:text-neutral-100"
@@ -812,7 +923,11 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                     </label>
                     <select
                       value={pageNumber.position}
-                      onChange={(e) => handlePageNumberChange({ position: e.target.value as any })}
+                      onChange={(e) =>
+                        handlePageNumberChange({
+                          position: e.target.value as any,
+                        })
+                      }
                       disabled={isLoading}
                       className="w-full px-3 py-2 border-2 border-neutral-500 dark:border-neutral-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-neutral-800 dark:text-neutral-100"
                     >
@@ -834,7 +949,11 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                       max="36"
                       step="2"
                       value={pageNumber.fontSize}
-                      onChange={(e) => handlePageNumberChange({ fontSize: parseInt(e.target.value) })}
+                      onChange={(e) =>
+                        handlePageNumberChange({
+                          fontSize: parseInt(e.target.value),
+                        })
+                      }
                       disabled={isLoading}
                       className="w-full"
                     />
@@ -867,7 +986,8 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
             <div className="text-lg font-medium text-neutral-800 dark:text-neutral-200 mb-2">
               {currentPage ? (
                 <>
-                  Converting PDF to Images<br />
+                  Converting PDF to Images
+                  <br />
                   Page {currentPage} of {endPage}
                 </>
               ) : (
@@ -897,7 +1017,9 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
               </Button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {processedImages.map((image, index) => renderImageCard(image, index))}
+              {processedImages.map((image, index) =>
+                renderImageCard(image, index),
+              )}
             </div>
           </div>
         </>
@@ -927,8 +1049,8 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
                 ‹
               </button>
               <div className="flex justify-center">
-                <img 
-                  src={selectedImage.url} 
+                <img
+                  src={selectedImage.url}
                   alt={`Page ${selectedImage.page} (Full Screen)`}
                   className="max-w-full max-h-[60vh] object-contain"
                 />
@@ -945,9 +1067,9 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
               <Button
                 onClick={() => {
                   if (selectedImage.index !== undefined) {
-                    downloadImage(selectedImage.url, selectedImage.index);
+                    downloadImage(selectedImage.url, selectedImage.index)
                   }
-                  closeImageModal();
+                  closeImageModal()
                 }}
                 className="w-full"
               >
@@ -963,15 +1085,11 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
 
       {/* AdSense Ad for PDF to Image */}
       <div style={{ marginBottom: '10px' }}>
-        <AdSense 
-          adSlot="6480016001" 
-          adFormat="auto" 
-          className="mt-8"
-        />
+        <AdSense adSlot="6480016001" adFormat="auto" className="mt-8" />
       </div>
-      <br/>
+      <br />
     </div>
-  );
-};
+  )
+}
 
-export default PdfToImageView;
+export default PdfToImageView

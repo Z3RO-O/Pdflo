@@ -1,17 +1,17 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types';
-import BaseConversionView from './BaseConversionView';
-import { RefreshCw, Languages, Settings, Info } from 'lucide-react';
+import React, { useState, useCallback, useEffect } from 'react'
+import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
+import BaseConversionView from './BaseConversionView'
+import { RefreshCw, Languages, Settings, Info } from 'lucide-react'
 
 interface OCRSettings {
-  language: string;
-  confidence: number;
-  preserveLayout: boolean;
-  extractImages: boolean;
+  language: string
+  confidence: number
+  preserveLayout: boolean
+  extractImages: boolean
 }
 
 interface OCRPdfViewProps {
-  task: ConversionTask;
+  task: ConversionTask
 }
 
 const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
@@ -19,90 +19,106 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
     language: 'eng',
     confidence: 0.7,
     preserveLayout: true,
-    extractImages: true
-  });
+    extractImages: true,
+  })
 
-  const [processingStatus, setProcessingStatus] = useState<string>('');
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [processingStatus, setProcessingStatus] = useState<string>('')
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null)
 
-  const handleOcrSettingChange = useCallback((field: keyof OCRSettings, value: any) => {
-    setOcrSettings(prev => ({ ...prev, [field]: value }));
-  }, []);
+  const handleOcrSettingChange = useCallback(
+    (field: keyof OCRSettings, value: any) => {
+      setOcrSettings((prev) => ({ ...prev, [field]: value }))
+    },
+    [],
+  )
 
   // Cleanup download URL on unmount
   useEffect(() => {
     return () => {
       if (downloadUrl) {
-        URL.revokeObjectURL(downloadUrl);
+        URL.revokeObjectURL(downloadUrl)
       }
-    };
-  }, [downloadUrl]);
-
-  const performConversion = useCallback(async (files: UploadedFile[], options: Record<string, any>): Promise<ProcessedFile[]> => {
-    if (files.length === 0) {
-      throw new Error('No files provided for OCR processing');
     }
+  }, [downloadUrl])
 
-    const file = files[0];
-    const outputFileName = `ocr_${file.file.name}`;
-
-    try {
-      setProcessingStatus('Loading PDF...');
-
-      // Create FormData to send the file
-      const formData = new FormData();
-      formData.append('file', file.file);
-      formData.append('conversionType', 'ocr-pdf');
-      formData.append('options', JSON.stringify({
-        language: ocrSettings.language,
-        confidence: ocrSettings.confidence,
-        preserve_layout: ocrSettings.preserveLayout,
-        extract_images: ocrSettings.extractImages
-      }));
-
-      // Call the OCR conversion
-      const response = await fetch('/api/convert', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'OCR processing failed');
+  const performConversion = useCallback(
+    async (
+      files: UploadedFile[],
+      options: Record<string, any>,
+    ): Promise<ProcessedFile[]> => {
+      if (files.length === 0) {
+        throw new Error('No files provided for OCR processing')
       }
 
-      setProcessingStatus('OCR processing completed');
+      const file = files[0]
+      const outputFileName = `ocr_${file.file.name}`
 
-      // Handle direct file download
-      const blob = await response.blob();
-      const newDownloadUrl = URL.createObjectURL(blob);
-      setDownloadUrl(newDownloadUrl);
-      
-      return [{
-        id: file.id,
-        name: `ocr_${file.file.name}`,
-        type: 'application/pdf',
-        size: `${Math.round(blob.size / 1024)} KB`,
-        downloadUrl: newDownloadUrl
-      }];
+      try {
+        setProcessingStatus('Loading PDF...')
 
-    } catch (error: any) {
-      throw new Error(`Failed to process PDF with OCR: ${error.message}`);
-    }
-  }, [ocrSettings]);
+        // Create FormData to send the file
+        const formData = new FormData()
+        formData.append('file', file.file)
+        formData.append('conversionType', 'ocr-pdf')
+        formData.append(
+          'options',
+          JSON.stringify({
+            language: ocrSettings.language,
+            confidence: ocrSettings.confidence,
+            preserve_layout: ocrSettings.preserveLayout,
+            extract_images: ocrSettings.extractImages,
+          }),
+        )
 
-  const customValidation = useCallback((files: UploadedFile[]): string | null => {
-    if (files.length === 0) {
-      return 'Please select a PDF file for OCR processing';
-    }
-    
-    const file = files[0];
-    if (!file.file.name.toLowerCase().endsWith('.pdf')) {
-      return 'Please select a valid PDF file';
-    }
-    
-    return null;
-  }, []);
+        // Call the OCR conversion
+        const response = await fetch('/api/convert', {
+          method: 'POST',
+          body: formData,
+        })
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          throw new Error(errorData.error || 'OCR processing failed')
+        }
+
+        setProcessingStatus('OCR processing completed')
+
+        // Handle direct file download
+        const blob = await response.blob()
+        const newDownloadUrl = URL.createObjectURL(blob)
+        setDownloadUrl(newDownloadUrl)
+
+        return [
+          {
+            id: file.id,
+            name: `ocr_${file.file.name}`,
+            type: 'application/pdf',
+            size: `${Math.round(blob.size / 1024)} KB`,
+            downloadUrl: newDownloadUrl,
+          },
+        ]
+      } catch (error: any) {
+        throw new Error(`Failed to process PDF with OCR: ${error.message}`)
+      }
+    },
+    [ocrSettings],
+  )
+
+  const customValidation = useCallback(
+    (files: UploadedFile[]): string | null => {
+      if (files.length === 0) {
+        return 'Please select a PDF file for OCR processing'
+      }
+
+      const file = files[0]
+      if (!file.file.name.toLowerCase().endsWith('.pdf')) {
+        return 'Please select a valid PDF file'
+      }
+
+      return null
+    },
+    [],
+  )
 
   return (
     <BaseConversionView
@@ -123,7 +139,7 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
             </div>
           )}
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Language */}
           <div>
@@ -133,7 +149,9 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
             </label>
             <select
               value={ocrSettings.language}
-              onChange={(e) => handleOcrSettingChange('language', e.target.value)}
+              onChange={(e) =>
+                handleOcrSettingChange('language', e.target.value)
+              }
               className="w-full px-3 py-2 border-2 border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-neutral-700 dark:text-neutral-100"
             >
               <option value="eng">English</option>
@@ -152,7 +170,9 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
               max="1"
               step="0.1"
               value={ocrSettings.confidence}
-              onChange={(e) => handleOcrSettingChange('confidence', parseFloat(e.target.value))}
+              onChange={(e) =>
+                handleOcrSettingChange('confidence', parseFloat(e.target.value))
+              }
               className="w-full"
             />
             <div className="flex justify-between text-xs text-neutral-500 dark:text-neutral-400 mt-1">
@@ -173,7 +193,9 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
               <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                 Preserve Original Layout
               </span>
-              <span className="text-xs text-green-600 dark:text-green-400 font-medium">(Required)</span>
+              <span className="text-xs text-green-600 dark:text-green-400 font-medium">
+                (Required)
+              </span>
             </div>
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
               Maintain the original document formatting and positioning
@@ -192,7 +214,9 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
               <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                 Extract and Preserve Images
               </span>
-              <span className="text-xs text-green-600 dark:text-green-400 font-medium">(Required)</span>
+              <span className="text-xs text-green-600 dark:text-green-400 font-medium">
+                (Required)
+              </span>
             </div>
             <p className="text-xs text-neutral-500 dark:text-neutral-400">
               Keep images in the document while making text searchable
@@ -209,14 +233,30 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
                 Enhanced OCR Processing
               </h4>
               <p className="text-sm text-blue-700 dark:text-blue-300 mb-2">
-                Our advanced OCR technology uses multiple techniques to achieve maximum accuracy:
+                Our advanced OCR technology uses multiple techniques to achieve
+                maximum accuracy:
               </p>
               <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-                <li>• <strong>High-Resolution Processing:</strong> 400 DPI for crisp text recognition</li>
-                <li>• <strong>Image Enhancement:</strong> Noise reduction, contrast adjustment, and sharpening</li>
-                <li>• <strong>Smart Filtering:</strong> Removes noise and improves text positioning</li>
-                <li>• <strong>Adaptive Thresholding:</strong> Better text separation from background</li>
-                <li>• <strong>Layout Preservation:</strong> Maintains original document formatting</li>
+                <li>
+                  • <strong>High-Resolution Processing:</strong> 400 DPI for
+                  crisp text recognition
+                </li>
+                <li>
+                  • <strong>Image Enhancement:</strong> Noise reduction,
+                  contrast adjustment, and sharpening
+                </li>
+                <li>
+                  • <strong>Smart Filtering:</strong> Removes noise and improves
+                  text positioning
+                </li>
+                <li>
+                  • <strong>Adaptive Thresholding:</strong> Better text
+                  separation from background
+                </li>
+                <li>
+                  • <strong>Layout Preservation:</strong> Maintains original
+                  document formatting
+                </li>
               </ul>
             </div>
           </div>
@@ -232,12 +272,15 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
             <li>• Ensure good contrast between text and background</li>
             <li>• Avoid documents with heavy noise or watermarks</li>
             <li>• Choose the correct language for better accuracy</li>
-            <li>• Higher confidence levels may take longer but provide better results</li>
+            <li>
+              • Higher confidence levels may take longer but provide better
+              results
+            </li>
           </ul>
         </div>
       </div>
     </BaseConversionView>
-  );
-};
+  )
+}
 
-export default OCRPdfView; 
+export default OCRPdfView

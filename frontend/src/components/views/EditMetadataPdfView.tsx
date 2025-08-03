@@ -1,18 +1,18 @@
-import React, { useState, useCallback } from 'react';
-import { ConversionTask, UploadedFile, ProcessedFile } from '../../types';
-import BaseConversionView from './BaseConversionView';
-import { Edit3, FileText, User, Tag, Hash } from 'lucide-react';
-import { PDFDocument } from 'pdf-lib';
+import React, { useState, useCallback } from 'react'
+import { ConversionTask, UploadedFile, ProcessedFile } from '../../types'
+import BaseConversionView from './BaseConversionView'
+import { Edit3, FileText, User, Tag, Hash } from 'lucide-react'
+import { PDFDocument } from 'pdf-lib'
 
 interface EditMetadataPdfViewProps {
-  task: ConversionTask;
+  task: ConversionTask
 }
 
 interface MetadataSettings {
-  title: string;
-  author: string;
-  subject: string;
-  keywords: string;
+  title: string
+  author: string
+  subject: string
+  keywords: string
 }
 
 const EditMetadataPdfView: React.FC<EditMetadataPdfViewProps> = ({ task }) => {
@@ -20,128 +20,153 @@ const EditMetadataPdfView: React.FC<EditMetadataPdfViewProps> = ({ task }) => {
     title: '',
     author: '',
     subject: '',
-    keywords: ''
-  });
+    keywords: '',
+  })
 
   const [currentMetadata, setCurrentMetadata] = useState<MetadataSettings>({
     title: '',
     author: '',
     subject: '',
-    keywords: ''
-  });
+    keywords: '',
+  })
 
-  const [metadataLoaded, setMetadataLoaded] = useState(false);
-  const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
+  const [metadataLoaded, setMetadataLoaded] = useState(false)
+  const [isLoadingMetadata, setIsLoadingMetadata] = useState(false)
 
-  const handleMetadataChange = useCallback((field: keyof MetadataSettings, value: string) => {
-    setMetadataSettings(prev => ({ ...prev, [field]: value }));
-  }, []);
+  const handleMetadataChange = useCallback(
+    (field: keyof MetadataSettings, value: string) => {
+      setMetadataSettings((prev) => ({ ...prev, [field]: value }))
+    },
+    [],
+  )
 
   const loadExistingMetadata = useCallback(async (file: File) => {
     try {
-      setIsLoadingMetadata(true);
-      setMetadataLoaded(false); // Reset loading state
-      const arrayBuffer = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-      
-      const title = pdfDoc.getTitle() || '';
-      const author = pdfDoc.getAuthor() || '';
-      const subject = pdfDoc.getSubject() || '';
-      const keywords = pdfDoc.getKeywords() || '';
-      
-      setCurrentMetadata({ title, author, subject, keywords });
-      setMetadataSettings({ title, author, subject, keywords });
-      setMetadataLoaded(true);
+      setIsLoadingMetadata(true)
+      setMetadataLoaded(false) // Reset loading state
+      const arrayBuffer = await file.arrayBuffer()
+      const pdfDoc = await PDFDocument.load(arrayBuffer)
+
+      const title = pdfDoc.getTitle() || ''
+      const author = pdfDoc.getAuthor() || ''
+      const subject = pdfDoc.getSubject() || ''
+      const keywords = pdfDoc.getKeywords() || ''
+
+      setCurrentMetadata({ title, author, subject, keywords })
+      setMetadataSettings({ title, author, subject, keywords })
+      setMetadataLoaded(true)
     } catch (error) {
-      console.error('Failed to load existing metadata:', error);
-      setMetadataLoaded(true);
+      console.error('Failed to load existing metadata:', error)
+      setMetadataLoaded(true)
     } finally {
-      setIsLoadingMetadata(false);
+      setIsLoadingMetadata(false)
     }
-  }, []);
+  }, [])
 
-  const handleFileChange = useCallback((files: UploadedFile[]) => {
-    if (files.length > 0 && files[0].file.type === 'application/pdf') {
-      loadExistingMetadata(files[0].file);
-    } else {
-      // Reset metadata when no file or invalid file
-      setCurrentMetadata({ title: '', author: '', subject: '', keywords: '' });
-      setMetadataSettings({ title: '', author: '', subject: '', keywords: '' });
-      setMetadataLoaded(false);
-    }
-  }, [loadExistingMetadata]);
-
-  const performConversion = useCallback(async (files: UploadedFile[], options: Record<string, any>): Promise<ProcessedFile[]> => {
-    if (files.length === 0) {
-      throw new Error('Please upload a PDF file to edit metadata.');
-    }
-
-    const file = files[0];
-    if (file.file.type !== 'application/pdf') {
-      throw new Error('Please upload a valid PDF file.');
-    }
-
-    try {
-      // Load the existing PDF
-      const arrayBuffer = await file.file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(arrayBuffer);
-      
-      // Update metadata - explicitly set or clear each field
-      pdfDoc.setTitle(metadataSettings.title.trim());
-      pdfDoc.setAuthor(metadataSettings.author.trim());
-      pdfDoc.setSubject(metadataSettings.subject.trim());
-      
-      if (metadataSettings.keywords.trim() !== '') {
-        // Split keywords by comma and trim whitespace
-        const keywordsArray = metadataSettings.keywords.split(',').map(k => k.trim()).filter(k => k.length > 0);
-        pdfDoc.setKeywords(keywordsArray);
+  const handleFileChange = useCallback(
+    (files: UploadedFile[]) => {
+      if (files.length > 0 && files[0].file.type === 'application/pdf') {
+        loadExistingMetadata(files[0].file)
       } else {
-        // Clear keywords if empty
-        pdfDoc.setKeywords([]);
+        // Reset metadata when no file or invalid file
+        setCurrentMetadata({ title: '', author: '', subject: '', keywords: '' })
+        setMetadataSettings({
+          title: '',
+          author: '',
+          subject: '',
+          keywords: '',
+        })
+        setMetadataLoaded(false)
       }
-      
-      // Save the modified PDF
-      const pdfBytes = await pdfDoc.save();
-      const modifiedPdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
-      const modifiedPdfUrl = URL.createObjectURL(modifiedPdfBlob);
-      
-      const result: ProcessedFile = {
-        id: `metadata_edited_${file.id}`,
-        name: `metadata_edited_${file.file.name}`,
-        downloadUrl: modifiedPdfUrl,
-        type: 'pdf',
-        size: `${(modifiedPdfBlob.size / 1024).toFixed(1)}KB`
-      };
+    },
+    [loadExistingMetadata],
+  )
 
-      return [result];
-    } catch (error: any) {
-      throw new Error(`Failed to edit PDF metadata: ${error.message}`);
-    }
-  }, [metadataSettings]);
+  const performConversion = useCallback(
+    async (
+      files: UploadedFile[],
+      options: Record<string, any>,
+    ): Promise<ProcessedFile[]> => {
+      if (files.length === 0) {
+        throw new Error('Please upload a PDF file to edit metadata.')
+      }
 
-  const customValidation = useCallback((files: UploadedFile[], options: Record<string, any>): string | null => {
-    if (files.length === 0) {
-      return 'Please upload a PDF file to edit metadata.';
-    }
-    
-    const file = files[0];
-    if (file.file.type !== 'application/pdf') {
-      return 'Please upload a valid PDF file.';
-    }
-    
-    // Load existing metadata when file is uploaded
-    if (!metadataLoaded) {
-      loadExistingMetadata(file.file);
-    }
-    
-    return null;
-  }, [metadataLoaded, loadExistingMetadata]);
+      const file = files[0]
+      if (file.file.type !== 'application/pdf') {
+        throw new Error('Please upload a valid PDF file.')
+      }
+
+      try {
+        // Load the existing PDF
+        const arrayBuffer = await file.file.arrayBuffer()
+        const pdfDoc = await PDFDocument.load(arrayBuffer)
+
+        // Update metadata - explicitly set or clear each field
+        pdfDoc.setTitle(metadataSettings.title.trim())
+        pdfDoc.setAuthor(metadataSettings.author.trim())
+        pdfDoc.setSubject(metadataSettings.subject.trim())
+
+        if (metadataSettings.keywords.trim() !== '') {
+          // Split keywords by comma and trim whitespace
+          const keywordsArray = metadataSettings.keywords
+            .split(',')
+            .map((k) => k.trim())
+            .filter((k) => k.length > 0)
+          pdfDoc.setKeywords(keywordsArray)
+        } else {
+          // Clear keywords if empty
+          pdfDoc.setKeywords([])
+        }
+
+        // Save the modified PDF
+        const pdfBytes = await pdfDoc.save()
+        const modifiedPdfBlob = new Blob([pdfBytes], {
+          type: 'application/pdf',
+        })
+        const modifiedPdfUrl = URL.createObjectURL(modifiedPdfBlob)
+
+        const result: ProcessedFile = {
+          id: `metadata_edited_${file.id}`,
+          name: `metadata_edited_${file.file.name}`,
+          downloadUrl: modifiedPdfUrl,
+          type: 'pdf',
+          size: `${(modifiedPdfBlob.size / 1024).toFixed(1)}KB`,
+        }
+
+        return [result]
+      } catch (error: any) {
+        throw new Error(`Failed to edit PDF metadata: ${error.message}`)
+      }
+    },
+    [metadataSettings],
+  )
+
+  const customValidation = useCallback(
+    (files: UploadedFile[], options: Record<string, any>): string | null => {
+      if (files.length === 0) {
+        return 'Please upload a PDF file to edit metadata.'
+      }
+
+      const file = files[0]
+      if (file.file.type !== 'application/pdf') {
+        return 'Please upload a valid PDF file.'
+      }
+
+      // Load existing metadata when file is uploaded
+      if (!metadataLoaded) {
+        loadExistingMetadata(file.file)
+      }
+
+      return null
+    },
+    [metadataLoaded, loadExistingMetadata],
+  )
 
   // Watch for file changes and load metadata
   React.useEffect(() => {
     // This effect will be triggered when the component re-renders
     // The customValidation will handle the actual metadata loading
-  }, [metadataLoaded]);
+  }, [metadataLoaded])
 
   const handleClearAll = useCallback(() => {
     // Clear all metadata fields completely
@@ -149,17 +174,17 @@ const EditMetadataPdfView: React.FC<EditMetadataPdfViewProps> = ({ task }) => {
       title: '',
       author: '',
       subject: '',
-      keywords: ''
-    });
+      keywords: '',
+    })
     setCurrentMetadata({
       title: '',
       author: '',
       subject: '',
-      keywords: ''
-    });
-    setMetadataLoaded(false);
-    setIsLoadingMetadata(false);
-  }, []);
+      keywords: '',
+    })
+    setMetadataLoaded(false)
+    setIsLoadingMetadata(false)
+  }, [])
 
   const handleClearMetadata = useCallback(() => {
     // Clear only the current input values, keep original metadata for reference
@@ -167,13 +192,13 @@ const EditMetadataPdfView: React.FC<EditMetadataPdfViewProps> = ({ task }) => {
       title: '',
       author: '',
       subject: '',
-      keywords: ''
-    });
-  }, []);
+      keywords: '',
+    })
+  }, [])
 
   const handleRestoreOriginal = useCallback(() => {
-    setMetadataSettings({ ...currentMetadata });
-  }, [currentMetadata]);
+    setMetadataSettings({ ...currentMetadata })
+  }, [currentMetadata])
 
   return (
     <BaseConversionView
@@ -294,28 +319,38 @@ const EditMetadataPdfView: React.FC<EditMetadataPdfViewProps> = ({ task }) => {
 
         {/* Metadata Preview */}
         <div className="mt-4 md:mt-6 p-3 md:p-4 bg-white dark:bg-neutral-900 border-2 border-neutral-300 dark:border-neutral-600 rounded-lg">
-          <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2 md:mb-3">Metadata Preview</h4>
+          <h4 className="text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2 md:mb-3">
+            Metadata Preview
+          </h4>
           <div className="space-y-1 md:space-y-2 text-sm">
             <div className="flex flex-col sm:flex-row">
-              <span className="font-medium text-neutral-600 dark:text-neutral-400 w-20">Title:</span>
+              <span className="font-medium text-neutral-600 dark:text-neutral-400 w-20">
+                Title:
+              </span>
               <span className="text-neutral-800 dark:text-neutral-200">
                 {metadataSettings.title || 'Not set'}
               </span>
             </div>
             <div className="flex flex-col sm:flex-row">
-              <span className="font-medium text-neutral-600 dark:text-neutral-400 w-20">Author:</span>
+              <span className="font-medium text-neutral-600 dark:text-neutral-400 w-20">
+                Author:
+              </span>
               <span className="text-neutral-800 dark:text-neutral-200">
                 {metadataSettings.author || 'Not set'}
               </span>
             </div>
             <div className="flex flex-col sm:flex-row">
-              <span className="font-medium text-neutral-600 dark:text-neutral-400 w-20">Subject:</span>
+              <span className="font-medium text-neutral-600 dark:text-neutral-400 w-20">
+                Subject:
+              </span>
               <span className="text-neutral-800 dark:text-neutral-200">
                 {metadataSettings.subject || 'Not set'}
               </span>
             </div>
             <div className="flex flex-col sm:flex-row">
-              <span className="font-medium text-neutral-600 dark:text-neutral-400 w-20">Keywords:</span>
+              <span className="font-medium text-neutral-600 dark:text-neutral-400 w-20">
+                Keywords:
+              </span>
               <span className="text-neutral-800 dark:text-neutral-200">
                 {metadataSettings.keywords || 'Not set'}
               </span>
@@ -326,12 +361,14 @@ const EditMetadataPdfView: React.FC<EditMetadataPdfViewProps> = ({ task }) => {
         {/* Instructions */}
         <div className="mt-3 md:mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Note:</strong> Leave fields empty to remove existing metadata. The PDF content remains unchanged - only the metadata properties are modified.
+            <strong>Note:</strong> Leave fields empty to remove existing
+            metadata. The PDF content remains unchanged - only the metadata
+            properties are modified.
           </p>
         </div>
       </div>
     </BaseConversionView>
-  );
-};
+  )
+}
 
-export default EditMetadataPdfView; 
+export default EditMetadataPdfView

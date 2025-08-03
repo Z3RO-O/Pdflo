@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 5001;
 
-console.log(`Starting PDF Converter backend on port ${port}`);
+console.log(`Starting Pdflo backend on port ${port}`);
 console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 
 // Set server timeouts for long-running operations
@@ -2873,7 +2873,7 @@ app.get('/health', (req, res) => {
 });
 
 const server = app.listen(port, () => {
-  console.log(`PDF Converter backend running on http://localhost:${port}`);
+  console.log(`Pdflo backend running on http://localhost:${port}`);
   console.log(`CORS origin: ${process.env.CORS_ORIGIN || 'default'}`);
 });
 

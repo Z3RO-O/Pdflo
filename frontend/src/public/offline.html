@@ -1,31 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex">
-    <title>PDF Converter Pro+ offline page</title>
-    <meta name="theme-color" content="#05fcc5">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Pdflo offline page</title>
 
-   <!-- Google tag (gtag.js) -->
-   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6S926GZYM"></script>
-   <script>
-       window.dataLayer = window.dataLayer || [];
-       function gtag() { dataLayer.push(arguments); }
-       gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-Q6S926GZYM"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
 
-       gtag('config', 'G-Q6S926GZYM');
-   </script>
+      gtag('config', 'G-Q6S926GZYM')
+    </script>
 
-
-<style>
-    * {
+    <style>
+      * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-    }
+      }
 
-    body {
+      body {
         font-family: Arial, sans-serif;
         display: flex;
         flex-direction: column;
@@ -36,9 +39,9 @@
         background-color: #f4f4f4;
         color: #333;
         text-align: center;
-    }
+      }
 
-    .custom-title-bar {
+      .custom-title-bar {
         -webkit-app-region: drag;
         background-color: #05fcc5;
         color: #333;
@@ -53,9 +56,9 @@
         left: 0;
         width: 100%;
         z-index: 1000;
-    }
+      }
 
-    .offline-container {
+      .offline-container {
         max-width: 400px;
         padding: 20px;
         border: 1px solid #ddd;
@@ -63,22 +66,22 @@
         background-color: #fff;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin-top: 50px;
-    }
+      }
 
-    h1 {
+      h1 {
         font-size: 24px;
         margin-bottom: 10px;
         color: #333;
-    }
+      }
 
-    p {
+      p {
         margin: 10px 0;
         font-size: 16px;
         color: #4a4a4a;
         line-height: 1.5;
-    }
+      }
 
-    .retry-button {
+      .retry-button {
         background-color: #3b7df6;
         color: white;
         border: none;
@@ -88,29 +91,33 @@
         font-size: 16px;
         font-weight: 500;
         transition: all 0.3s ease;
-    }
+      }
 
-    .retry-button:hover {
+      .retry-button:hover {
         background-color: #246ef8;
         box-shadow: 0 2px 8px rgba(59, 125, 246, 0.2);
         transform: translateY(-2px);
-    }
+      }
 
-    .icon {
+      .icon {
         font-size: 48px;
         margin-bottom: 15px;
-    }
-</style>
-</head>
-<body>
-<div class="custom-title-bar">
-    <span class="app-title"><b>PDF Converter Pro+</b></span>
-</div>
-<div class="offline-container">
-    <div class="icon">📡</div>
-    <h1>You're Offline</h1>
-    <p>It seems you've lost your internet connection. PDF Converter Pro+ requires an active connection to work.</p>
-    <button class="retry-button" onclick="window.location.href='/'">Try Again</button>
-</div>
-</body>
+      }
+    </style>
+  </head>
+  <body>
+    <div class="custom-title-bar">
+      <span class="app-title"><b>Pdflo</b></span>
+    </div>
+    <div class="offline-container">
+      <div class="icon">📡</div>
+      <h1>You're Offline</h1>
+      <p>
+        It seems you've lost your internet connection. Pdflo requires an active connection to work.
+      </p>
+      <button class="retry-button" onclick="window.location.href='/'">
+        Try Again
+      </button>
+    </div>
+  </body>
 </html>

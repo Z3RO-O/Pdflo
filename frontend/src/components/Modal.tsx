@@ -1,37 +1,43 @@
-
-import React, { ReactNode, useEffect } from 'react';
-import { X } from 'lucide-react';
+import React, { ReactNode, useEffect } from 'react'
+import { X } from 'lucide-react'
 
 interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title?: string;
-  children: ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  footer?: ReactNode;
+  isOpen: boolean
+  onClose: () => void
+  title?: string
+  children: ReactNode
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  footer?: ReactNode
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 'md', footer }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  size = 'md',
+  footer,
+}) => {
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose();
+        onClose()
       }
-    };
+    }
     if (isOpen) {
-      document.addEventListener('keydown', handleEsc);
-      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      document.addEventListener('keydown', handleEsc)
+      document.body.style.overflow = 'hidden' // Prevent background scrolling
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = 'auto'
     }
     return () => {
-      document.removeEventListener('keydown', handleEsc);
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen, onClose]);
+      document.removeEventListener('keydown', handleEsc)
+      document.body.style.overflow = 'auto'
+    }
+  }, [isOpen, onClose])
 
   if (!isOpen) {
-    return null;
+    return null
   }
 
   const sizeClasses = {
@@ -40,7 +46,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
     lg: 'max-w-lg',
     xl: 'max-w-xl',
     full: 'max-w-full h-full',
-  };
+  }
 
   return (
     <div
@@ -54,7 +60,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
       >
         {title && (
           <div className="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-700">
-            <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">{title}</h3>
+            <h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
+              {title}
+            </h3>
             <button
               onClick={onClose}
               className="p-1 rounded-full text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none"
@@ -64,9 +72,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
             </button>
           </div>
         )}
-        <div className="p-6 overflow-y-auto grow">
-          {children}
-        </div>
+        <div className="p-6 overflow-y-auto grow">{children}</div>
         {footer && (
           <div className="p-4 border-t border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/50">
             {footer}
@@ -74,8 +80,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, size = 
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Modal;
-    
+export default Modal
