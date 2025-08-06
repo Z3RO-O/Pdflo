@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  pdflo-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - NODE_ENV=production
+      - PORT=5001
+      - CORS_ORIGIN=http://localhost:5173,https://pdflo.z3r0-0.tech
+    volumes:
+      # Optional: Mount volumes for persistent storage (uncomment if needed)
+      # - ./uploads:/app/uploads
+      # - ./temp:/app/temp
+      # - ./temp_pdf:/app/temp_pdf
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
