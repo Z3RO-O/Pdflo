@@ -1,6 +1,7 @@
 import React from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 
 interface RtfToPdfViewProps {
   task: ConversionTask
@@ -26,7 +27,7 @@ const RtfToPdfView: React.FC<RtfToPdfViewProps> = ({ task }) => {
     let pdfBlob: Blob | null = null
     let pdfSize = 0
     try {
-      const response = await fetch('/convert/rtf-to-pdf', {
+      const response = await fetch(getApiUrl('/convert/rtf-to-pdf'), {
         method: 'POST',
         body: formData,
       })

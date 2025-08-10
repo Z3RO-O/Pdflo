@@ -19,6 +19,7 @@ import {
   Download as DownloadIcon,
 } from '@mui/icons-material'
 import FileUpload from '@/components/FileUpload'
+import getApiUrl from '@/utils/api'
 import { UploadedFile } from '@/types'
 import { ThemeContext } from '@/contexts/ThemeContext'
 import AdSense from '@/components/AdSense'
@@ -71,7 +72,7 @@ const PdfToWordView: React.FC = () => {
     formData.append('file', file)
 
     try {
-      const response = await fetch('/convert/pdf-to-word', {
+      const response = await fetch(getApiUrl('/convert/pdf-to-word'), {
         method: 'POST',
         body: formData,
       })

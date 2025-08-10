@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const { darkMode, toggleDarkMode } = themeContext
 
   return (
-    <header className="bg-primary dark:bg-neutral-800 text-white shadow-md">
+    <header className="bg-primary dark:bg-neutral-900 text-white shadow-md">
       <div className="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           {/* Mobile menu button */}

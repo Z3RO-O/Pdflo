@@ -4,6 +4,7 @@ import { ConversionType, getTaskById } from '@/constants'
 import { UploadedFile, ProcessedFile } from '@/types'
 import PageManager from '@/components/PageManager'
 import { Box, Typography, CircularProgress } from '@mui/material'
+import getApiUrl from '@/utils/api'
 
 // interface PageValidationErrors {
 //   pageOrder?: string
@@ -43,7 +44,7 @@ const OrganizePdfView: React.FC = () => {
       const formData = new FormData()
       formData.append('file', file)
 
-      const response = await fetch('/api/get-pdf-page-count', {
+      const response = await fetch(getApiUrl('/api/get-pdf-page-count'), {
         method: 'POST',
         body: formData,
       })
@@ -196,7 +197,7 @@ const OrganizePdfView: React.FC = () => {
     formData.append('rotate_pages', finalOptions.rotate_pages || '')
     formData.append('delete_pages', finalOptions.delete_pages || '')
 
-    const response = await fetch('/api/organize-pdf', {
+    const response = await fetch(getApiUrl('/api/organize-pdf'), {
       method: 'POST',
       body: formData,
     })

@@ -1,6 +1,7 @@
 import React from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 
 interface PasswordPdfViewProps {
   task: ConversionTask // Could be 'password-protect-pdf' or 'unlock-pdf'
@@ -35,7 +36,7 @@ const PasswordPdfView: React.FC<PasswordPdfViewProps> = ({ task }) => {
     formData.append('file', file)
     formData.append('password', password)
 
-    const response = await fetch('/convert/password-protect-pdf', {
+    const response = await fetch(getApiUrl('/convert/password-protect-pdf'), {
       method: 'POST',
       body: formData,
     })

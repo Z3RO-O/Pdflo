@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 import { RefreshCw, Languages, Settings, Info } from 'lucide-react'
 
 interface OCRSettings {
@@ -71,7 +72,7 @@ const OCRPdfView: React.FC<OCRPdfViewProps> = ({ task }) => {
         )
 
         // Call the OCR conversion
-        const response = await fetch('/api/convert', {
+        const response = await fetch(getApiUrl('/api/convert'), {
           method: 'POST',
           body: formData,
         })

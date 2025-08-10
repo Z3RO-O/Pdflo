@@ -207,3 +207,20 @@
   display: block !important;
   text-align: center;
 }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  @apply w-2 pr-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-dark;
+}

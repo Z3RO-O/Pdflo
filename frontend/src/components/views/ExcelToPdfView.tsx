@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 
 interface ExcelToPdfViewProps {
   task: ConversionTask
@@ -26,7 +27,7 @@ const ExcelToPdfView: React.FC<ExcelToPdfViewProps> = ({ task }) => {
       let pdfBlob: Blob | null = null
       let pdfSize = 0
       try {
-        const response = await fetch('/convert/excel-to-pdf', {
+        const response = await fetch(getApiUrl('/convert/excel-to-pdf'), {
           method: 'POST',
           body: formData,
         })

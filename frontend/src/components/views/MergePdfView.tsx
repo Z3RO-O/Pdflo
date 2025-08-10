@@ -4,6 +4,7 @@ import BaseConversionView from '@/components/views/BaseConversionView'
 import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd'
 import { GripVertical, X } from 'lucide-react'
 import Button from '@/components/Button'
+import getApiUrl from '@/utils/api'
 import FileUpload from '@/components/FileUpload'
 import { StrictModeDroppable } from '@/components/StrictModeDroppable'
 
@@ -70,7 +71,7 @@ const MergePdfView: React.FC<MergePdfViewProps> = ({ task }) => {
       formData.append('files', uploadedFile.file, uploadedFile.file.name)
     })
 
-    const response = await fetch('/convert/merge-pdf', {
+    const response = await fetch(getApiUrl('/convert/merge-pdf'), {
       method: 'POST',
       body: formData,
     })

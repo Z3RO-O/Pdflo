@@ -1,6 +1,7 @@
 import React from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 
 interface PdfToHtmlViewProps {
   task: ConversionTask
@@ -23,7 +24,7 @@ const PdfToHtmlView: React.FC<PdfToHtmlViewProps> = ({ task }) => {
     formData.append('responsive', options.responsive ? 'true' : 'false')
 
     try {
-      const response = await fetch('/convert/pdf-to-html', {
+      const response = await fetch(getApiUrl('/convert/pdf-to-html'), {
         method: 'POST',
         body: formData,
       })

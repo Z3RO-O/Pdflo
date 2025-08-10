@@ -7,6 +7,7 @@ import { Download, AlertCircle } from 'lucide-react'
 import styled from 'styled-components'
 import { ThemeContext } from '@/contexts/ThemeContext'
 import AdSense from '@/components/AdSense'
+import getApiUrl from '@/utils/api'
 
 interface HtmlToPdfViewProps {
   task: ConversionTask
@@ -250,7 +251,7 @@ const HtmlToPdfView: React.FC<HtmlToPdfViewProps> = ({ task }) => {
     }, 200)
 
     try {
-      const response = await fetch('/convert/html-to-pdf', {
+      const response = await fetch(getApiUrl('/convert/html-to-pdf'), {
         method: 'POST',
         body: formData,
       })

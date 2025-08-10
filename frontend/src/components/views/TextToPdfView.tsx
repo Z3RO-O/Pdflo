@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 import { Download, AlertTriangle, CheckCircle } from 'lucide-react'
 import Button from '@/components/Button'
 import ProgressBar from '@/components/ProgressBar'
@@ -42,7 +43,7 @@ const TextToPdfView: React.FC<TextToPdfViewProps> = ({ task }) => {
       let pdfBlob: Blob | null = null
       let pdfSize = 0
       try {
-        const response = await fetch('/convert/text-to-pdf', {
+        const response = await fetch(getApiUrl('/convert/text-to-pdf'), {
           method: 'POST',
           body: formData,
         })
@@ -134,7 +135,7 @@ const TextToPdfView: React.FC<TextToPdfViewProps> = ({ task }) => {
       const formData = new FormData()
       formData.append('file', textFile)
 
-      const response = await fetch('/convert/text-to-pdf', {
+      const response = await fetch(getApiUrl('/convert/text-to-pdf'), {
         method: 'POST',
         body: formData,
       })

@@ -1,5 +1,6 @@
 import React from 'react'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 import { ConversionType, getTaskById } from '@/constants'
 import { UploadedFile, ProcessedFile } from '@/types'
 
@@ -18,7 +19,7 @@ const CompressPdfView: React.FC = () => {
     formData.append('compression_level', options.compression_level || 'ebook')
     formData.append('grayscale', options.grayscale ? 'true' : 'false')
 
-    const response = await fetch('/convert/compress-pdf', {
+    const response = await fetch(getApiUrl('/convert/compress-pdf'), {
       method: 'POST',
       body: formData,
     })

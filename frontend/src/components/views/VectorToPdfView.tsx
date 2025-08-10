@@ -1,6 +1,7 @@
 import React from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 
 interface VectorToPdfViewProps {
   task: ConversionTask
@@ -26,7 +27,7 @@ const VectorToPdfView: React.FC<VectorToPdfViewProps> = ({ task }) => {
     let pdfBlob: Blob | null = null
     let pdfSize = 0
     try {
-      const response = await fetch('/convert/vector-to-pdf', {
+      const response = await fetch(getApiUrl('/convert/vector-to-pdf'), {
         method: 'POST',
         body: formData,
       })

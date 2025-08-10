@@ -1,6 +1,7 @@
 import React from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 
 interface PdfToEpubViewProps {
   task: ConversionTask
@@ -61,7 +62,7 @@ const PdfToEpubView: React.FC<PdfToEpubViewProps> = ({ task }) => {
     }
 
     try {
-      const response = await fetch('/convert/pdf-to-epub', {
+      const response = await fetch(getApiUrl('/convert/pdf-to-epub'), {
         method: 'POST',
         body: formData,
       })

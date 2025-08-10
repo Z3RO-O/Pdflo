@@ -32,6 +32,7 @@ import {
 import * as pdfjsLib from 'pdfjs-dist'
 import { PDFDocumentProxy } from 'pdfjs-dist'
 import AdSense from '@/components/AdSense'
+import getApiUrl from '@/utils/api'
 
 // Set up PDF.js worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js'
@@ -356,7 +357,7 @@ const PdfToExcelView: React.FC<PdfToExcelViewProps> = ({
       formData.append('file', uploadedFile)
       formData.append('pageSelection', finalPageSelection)
 
-      const response = await fetch('/convert/pdf-to-excel', {
+      const response = await fetch(getApiUrl('/convert/pdf-to-excel'), {
         method: 'POST',
         body: formData,
       })

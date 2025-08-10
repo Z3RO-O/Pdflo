@@ -1,15 +1,12 @@
 // API utility for handling backend URLs
+// If VITE_API_URL is set, prefix requests with it (works in dev and prod).
+// Otherwise, fall back to relative endpoints which rely on same-origin or dev proxy.
 const getApiUrl = (endpoint: string): string => {
-  // In production (Coolify), use the backend service name
-  // In development, use the environment variable or fallback to localhost
-  if ((import.meta as any).env?.PROD) {
-    // In production, use relative URLs which will be proxied to the backend
-    return endpoint
+  const base = (import.meta as any).env?.VITE_API_URL
+  if (base && typeof base === 'string' && base.length > 0) {
+    return `${base}${endpoint}`
   }
-
-  const apiUrl =
-    (import.meta as any).env?.VITE_API_URL || 'http://localhost:5001'
-  return `${apiUrl}${endpoint}`
+  return endpoint
 }
 
 export default getApiUrl

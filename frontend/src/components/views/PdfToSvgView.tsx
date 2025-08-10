@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 import * as pdfjsLib from 'pdfjs-dist'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.js`
@@ -101,7 +102,7 @@ const PdfToSvgView: React.FC<PdfToSvgViewProps> = ({ task }) => {
     })
 
     try {
-      const response = await fetch('/convert/pdf-to-svg', {
+      const response = await fetch(getApiUrl('/convert/pdf-to-svg'), {
         method: 'POST',
         body: formData,
       })

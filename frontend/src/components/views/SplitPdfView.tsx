@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 import * as pdfjsLib from 'pdfjs-dist'
 
 // Set up the worker with local file - exact version match
@@ -44,7 +45,7 @@ const SplitPdfView: React.FC<SplitPdfViewProps> = ({ task }) => {
     formData.append('file', file.file)
     formData.append('options', JSON.stringify(options))
 
-    const response = await fetch('/convert/split-pdf', {
+    const response = await fetch(getApiUrl('/convert/split-pdf'), {
       method: 'POST',
       body: formData,
     })

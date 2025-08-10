@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 import * as pdfjsLib from 'pdfjs-dist'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js'
@@ -101,7 +102,7 @@ const PdfToRtfView: React.FC<PdfToRtfViewProps> = ({ task }) => {
     })
 
     try {
-      const response = await fetch('/convert/pdf-to-rtf', {
+      const response = await fetch(getApiUrl('/convert/pdf-to-rtf'), {
         method: 'POST',
         body: formData,
       })

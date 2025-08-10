@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 
 interface PowerPointToPdfViewProps {
   task: ConversionTask
@@ -26,7 +27,7 @@ const PowerPointToPdfView: React.FC<PowerPointToPdfViewProps> = ({ task }) => {
       let pdfBlob: Blob | null = null
       let pdfSize = 0
       try {
-        const response = await fetch('/convert/powerpoint-to-pdf', {
+        const response = await fetch(getApiUrl('/convert/powerpoint-to-pdf'), {
           method: 'POST',
           body: formData,
         })

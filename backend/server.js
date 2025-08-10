@@ -28,11 +28,20 @@ app.use((req, res, next) => {
 });
 
 // Configure CORS for production and development
+const parseCorsOrigins = (value) => {
+  if (!value) {
+    return ["http://localhost:5173", "http://frontend:5173"];
+  }
+  if (Array.isArray(value)) return value;
+  // Allow comma-separated string
+  return value
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+};
+
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || [
-    "http://localhost:5173",
-    "http://frontend:5173",
-  ],
+  origin: parseCorsOrigins(process.env.CORS_ORIGIN),
   credentials: true,
   optionsSuccessStatus: 200,
 };

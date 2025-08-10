@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
+import getApiUrl from '@/utils/api'
 
 interface WordToPdfViewProps {
   task: ConversionTask
@@ -25,7 +26,7 @@ const WordToPdfView: React.FC<WordToPdfViewProps> = ({ task }) => {
       let pdfBlob: Blob | null = null
       let pdfSize = 0
       try {
-        const response = await fetch('/convert/word-to-pdf', {
+        const response = await fetch(getApiUrl('/convert/word-to-pdf'), {
           method: 'POST',
           body: formData,
         })
