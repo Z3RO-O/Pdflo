@@ -28,6 +28,7 @@
     "react": "^19.1.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^19.1.0",
+    "react-router-dom": "^6.28.0",
     "react-image-crop": "^11.0.10",
     "styled-components": "^6.1.19",
     "tailwindcss": "^4.1.11"
