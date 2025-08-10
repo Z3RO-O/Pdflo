@@ -5,13 +5,7 @@ import { saveAs } from 'file-saver'
 import { ConversionTask, ProcessedFile } from '@/types'
 import Button from '@/components/Button'
 import ProgressBar from '@/components/ProgressBar'
-import {
-  Download,
-  AlertTriangle,
-  CheckCircle,
-  Eye,
-  X,
-} from 'lucide-react'
+import { Download, AlertTriangle, CheckCircle, Eye, X } from 'lucide-react'
 import AdSense from '@/components/AdSense'
 
 // Initialize PDF.js worker - use local worker file

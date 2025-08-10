@@ -1,6 +1,6 @@
 # 📄 Pdflo Toolkit
 
-*The Ultimate PDF Conversion & Management Suite*
+_The Ultimate PDF Conversion & Management Suite_
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
@@ -17,7 +17,7 @@
 ### 📝 Document Conversions
 
 - **Word to PDF** - Turn your .doc or .docx files into PDFs
-- **Excel to PDF** - Turn your .xls or .xlsx files into PDFs  
+- **Excel to PDF** - Turn your .xls or .xlsx files into PDFs
 - **PowerPoint to PDF** - Turn your .ppt or .pptx files into PDFs
 - **Text to PDF** - Turn your .txt files into PDFs
 
@@ -72,7 +72,7 @@
 - **Styling**: Tailwind CSS + Material-UI components
 - **Port**: 3000 (development), 5173 (production)
 
-### Backend  
+### Backend
 
 - **Framework**: FastAPI (Python 3.12+)
 - **Database**: SQLAlchemy with Alembic migrations
@@ -90,7 +90,7 @@
 
 ## �🌐 **Live Demo**
 
-**[Visit Pdflo Toolkit](pdflo.z3r0-0.tech)** - Try all 27+ PDF tools online!
+**[Visit Pdflo Toolkit](https://pdflo.z3r0-0.tech/)** - Try all 27+ PDF tools online!
 
 ## 🏷️ **Supported Technologies**
 
@@ -145,7 +145,7 @@ cd pdflo-toolkit
 cd frontend
 pnpm install
 
-# Install backend dependencies  
+# Install backend dependencies
 cd ../backend
 pip install -r requirements.txt
 
@@ -263,7 +263,7 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip
 
-# For Alpine based images  
+# For Alpine based images
 RUN apk add \
     libreoffice \
     ghostscript \

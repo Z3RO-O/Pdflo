@@ -380,7 +380,7 @@ const ImageEditDialog: React.FC<ImageEditDialogProps> = ({
                   <img
                     key={`crop-${previewKey}`}
                     ref={(el) => {
-                      if (el) setImgRef(el);
+                      if (el) setImgRef(el)
                     }}
                     src={currentImage}
                     alt="Crop Preview"
@@ -1111,7 +1111,8 @@ const MuiImageToPdfTool: React.FC = () => {
         img.src = imgSrc
         await new Promise<void>((resolve, reject) => {
           img.onload = () => resolve()
-          img.onerror = (_e) => reject(new Error('Image load error for preview'))
+          img.onerror = (_e) =>
+            reject(new Error('Image load error for preview'))
         })
 
         const pageWidth = pdf.internal.pageSize.getWidth()
@@ -1332,48 +1333,48 @@ const MuiImageToPdfTool: React.FC = () => {
                 onDrop={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
               >
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: 2,
-                }}
-              >
-                <CloudUploadIcon
-                  sx={{ fontSize: { xs: 48, sm: 64 }, color: 'primary.main' }}
-                />
-                <Typography
-                  variant="h6"
+                <Box
                   sx={{
-                    color: 'text.secondary',
-                    mb: 1,
-                    fontSize: { xs: '1rem', sm: '1.25rem' },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 2,
                   }}
                 >
-                  Drag & drop images or
-                </Typography>
-                <Button
-                  variant="contained"
-                  component="span"
-                  startIcon={<CloudUploadIcon />}
-                  sx={{
-                    px: { xs: 3, sm: 4 },
-                    py: { xs: 1, sm: 1.5 },
-                    fontSize: { xs: '0.9rem', sm: '1rem' },
-                  }}
-                >
-                  Choose Files
-                  <VisuallyHiddenInput
-                    id="file-upload-input-mui"
-                    type="file"
-                    multiple
-                    accept="image/png,image/jpeg,image/webp,image/heic,.heic,image/gif"
-                    onChange={handleFileSelect}
+                  <CloudUploadIcon
+                    sx={{ fontSize: { xs: 48, sm: 64 }, color: 'primary.main' }}
                   />
-                </Button>
-              </Box>
-            </DropZone>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      color: 'text.secondary',
+                      mb: 1,
+                      fontSize: { xs: '1rem', sm: '1.25rem' },
+                    }}
+                  >
+                    Drag & drop images or
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    component="span"
+                    startIcon={<CloudUploadIcon />}
+                    sx={{
+                      px: { xs: 3, sm: 4 },
+                      py: { xs: 1, sm: 1.5 },
+                      fontSize: { xs: '0.9rem', sm: '1rem' },
+                    }}
+                  >
+                    Choose Files
+                    <VisuallyHiddenInput
+                      id="file-upload-input-mui"
+                      type="file"
+                      multiple
+                      accept="image/png,image/jpeg,image/webp,image/heic,.heic,image/gif"
+                      onChange={handleFileSelect}
+                    />
+                  </Button>
+                </Box>
+              </DropZone>
             </label>
 
             {heicConverting && (
@@ -1407,7 +1408,8 @@ const MuiImageToPdfTool: React.FC = () => {
                 </Typography>
                 <Grid container spacing={3}>
                   {/* @ts-ignore - MUI Grid type issue */}
-                  {/* @ts-ignore - MUI Grid type issue */}`n                  <Grid item xs={12} md={6}>
+                  {/* @ts-ignore - MUI Grid type issue */}`n{' '}
+                  <Grid item xs={12} md={6}>
                     <Typography
                       variant="subtitle1"
                       sx={{ color: 'text.secondary', mb: 2, fontWeight: 500 }}

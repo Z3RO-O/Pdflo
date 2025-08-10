@@ -1,7 +1,4 @@
-import {
-  ConversionTask,
-  ConversionOption,
-} from '@/types'
+import { ConversionTask, ConversionOption } from '@/types'
 import {
   FileImage,
   FileText,

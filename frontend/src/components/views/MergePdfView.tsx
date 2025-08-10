@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { ConversionTask, UploadedFile, ProcessedFile } from '@/types'
 import BaseConversionView from '@/components/views/BaseConversionView'
-import {
-  DragDropContext,
-  Draggable,
-  DropResult,
-} from 'react-beautiful-dnd'
+import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd'
 import { GripVertical, X } from 'lucide-react'
 import Button from '@/components/Button'
 import FileUpload from '@/components/FileUpload'

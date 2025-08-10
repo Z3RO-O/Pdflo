@@ -57,6 +57,7 @@ volumes:
 ## Health Check
 
 The container includes a health check that verifies the server is responding:
+
 - Endpoint: `http://localhost:5001/health`
 - Interval: 30 seconds
 - Timeout: 10 seconds
@@ -64,15 +65,18 @@ The container includes a health check that verifies the server is responding:
 ## Troubleshooting
 
 ### Container won't start
+
 1. Check if port 5001 is already in use: `lsof -i :5001`
 2. Check container logs: `docker logs pdflo-backend`
 
 ### Conversion failures
+
 1. Ensure all system dependencies are installed (included in Dockerfile)
 2. Check Python library installation in container logs
 3. Verify LibreOffice and Calibre are working: `docker exec -it pdflo-backend which libreoffice`
 
 ### Performance optimization
+
 1. The container uses multi-stage builds for smaller image size
 2. Python libraries are cached to speed up rebuilds
 3. Node modules are installed before copying source code
