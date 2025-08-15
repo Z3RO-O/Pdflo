@@ -4,6 +4,7 @@ import FileUpload from '@/components/FileUpload'
 import ConversionOptionsPanel from '@/components/ConversionOptionsPanel'
 import Button from '@/components/Button'
 import ProgressBar from '@/components/ProgressBar'
+import ContentEnhancer from '@/components/ContentEnhancer'
 import { Download, AlertTriangle, CheckCircle, Trash2 } from 'lucide-react'
 import AdSense from '@/components/AdSense'
 
@@ -348,8 +349,8 @@ const BaseConversionView: React.FC<BaseConversionViewProps> = ({
           </div>
         )}
 
-        {/* AdSense Ads for specific conversion types */}
-        {[
+        {/* AdSense Ads for specific conversion types - Only show after successful conversion */}
+        {processedFiles.length > 0 && [
           'image-to-pdf',
           'word-to-pdf',
           'excel-to-pdf',
@@ -381,6 +382,11 @@ const BaseConversionView: React.FC<BaseConversionViewProps> = ({
           />
         )}
       </div>
+      
+      {/* Enhanced Content Section - Only show when no files are uploaded */}
+      {uploadedFiles.length === 0 && !processedFiles.length && (
+        <ContentEnhancer task={task} />
+      )}
     </div>
   )
 }

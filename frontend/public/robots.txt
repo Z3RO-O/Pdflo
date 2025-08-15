@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pdflo.app/sitemap.xml
+
+# Disallow admin or temporary directories
+Disallow: /temp/
+Disallow: /uploads/
+Disallow: /admin/

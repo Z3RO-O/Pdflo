@@ -9,6 +9,10 @@ import {
 } from 'react-router-dom'
 import Header from '@/components/Header'
 import Sidebar from '@/components/Sidebar'
+import Footer from '@/components/Footer'
+import SEOHead from '@/components/SEOHead'
+import NotFound from '@/components/NotFound'
+import PrivacyPolicy from '@/components/PrivacyPolicy'
 import { ConversionType, ALL_CONVERSION_TASKS } from '@/constants'
 import type { ConversionTask } from '@/types'
 import PdfToImageView from '@/components/views/PdfToImageView'
@@ -211,8 +215,9 @@ const AppShell: React.FC = () => {
 
   return (
     <div
-      className={`flex flex-col h-screen font-sans ${darkMode ? 'dark' : ''}`}
+      className={`flex flex-col font-sans ${darkMode ? 'dark' : ''}`}
     >
+      <SEOHead task={activeTask} />
       <OfflineAlert />
       <Header onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
       <div className="flex flex-1 overflow-hidden relative">
@@ -239,6 +244,7 @@ const AppShell: React.FC = () => {
           {renderActiveView()}
         </main>
       </div>
+      <Footer />
     </div>
   )
 }
@@ -251,12 +257,10 @@ const App: React.FC = () => {
           path="/"
           element={<Navigate to={`/${ConversionType.IMAGE_TO_PDF}`} replace />}
         />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path=":taskId" element={<AppShell />} />
         {/* Fallback */}
-        <Route
-          path="*"
-          element={<Navigate to={`/${ConversionType.IMAGE_TO_PDF}`} replace />}
-        />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )
