@@ -3,7 +3,7 @@ import { Shield, Lock, Trash2, Eye } from 'lucide-react'
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <div className='bg-white dark:bg-neutral-900'>
+    <div className="bg-white dark:bg-neutral-900">
       <div className="lg:mx-48 mx-4 p-6">
         <div className="text-center mb-8">
           <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
@@ -19,18 +19,30 @@ const PrivacyPolicy: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             <div className="text-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
               <Lock className="w-8 h-8 text-green-600 mx-auto mb-2" />
-              <h3 className="font-semibold text-green-800 dark:text-green-200">Secure Processing</h3>
-              <p className="text-sm text-green-700 dark:text-green-300">All files encrypted during processing</p>
+              <h3 className="font-semibold text-green-800 dark:text-green-200">
+                Secure Processing
+              </h3>
+              <p className="text-sm text-green-700 dark:text-green-300">
+                All files encrypted during processing
+              </p>
             </div>
             <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
               <Trash2 className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-              <h3 className="font-semibold text-blue-800 dark:text-blue-200">Auto-Delete</h3>
-              <p className="text-sm text-blue-700 dark:text-blue-300">Files deleted within 1 hour</p>
+              <h3 className="font-semibold text-blue-800 dark:text-blue-200">
+                Auto-Delete
+              </h3>
+              <p className="text-sm text-blue-700 dark:text-blue-300">
+                Files deleted within 1 hour
+              </p>
             </div>
             <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
               <Eye className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-              <h3 className="font-semibold text-purple-800 dark:text-purple-200">No Tracking</h3>
-              <p className="text-sm text-purple-700 dark:text-purple-300">We don't track your documents</p>
+              <h3 className="font-semibold text-purple-800 dark:text-purple-200">
+                No Tracking
+              </h3>
+              <p className="text-sm text-purple-700 dark:text-purple-300">
+                We don't track your documents
+              </p>
             </div>
           </div>
 
@@ -44,8 +56,10 @@ const PrivacyPolicy: React.FC = () => {
                   Files You Upload
                 </h3>
                 <p className="text-neutral-600 dark:text-neutral-400">
-                  When you use our PDF conversion tools, we temporarily process your files on our servers. 
-                  These files are automatically deleted within 1 hour of processing and are never permanently stored.
+                  When you use our PDF conversion tools, we temporarily process
+                  your files on our servers. These files are automatically
+                  deleted within 1 hour of processing and are never permanently
+                  stored.
                 </p>
               </div>
               <div>
@@ -53,8 +67,9 @@ const PrivacyPolicy: React.FC = () => {
                   Technical Information
                 </h3>
                 <p className="text-neutral-600 dark:text-neutral-400">
-                  We may collect basic technical information such as your IP address, browser type, and 
-                  operating system for security and performance optimization purposes.
+                  We may collect basic technical information such as your IP
+                  address, browser type, and operating system for security and
+                  performance optimization purposes.
                 </p>
               </div>
             </div>
@@ -80,15 +95,21 @@ const PrivacyPolicy: React.FC = () => {
               <ul className="space-y-3 text-neutral-600 dark:text-neutral-400">
                 <li className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>All file uploads and downloads are encrypted using HTTPS</span>
+                  <span>
+                    All file uploads and downloads are encrypted using HTTPS
+                  </span>
                 </li>
                 <li className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Files are processed in isolated, secure environments</span>
+                  <span>
+                    Files are processed in isolated, secure environments
+                  </span>
                 </li>
                 <li className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Automatic file deletion prevents unauthorized access</span>
+                  <span>
+                    Automatic file deletion prevents unauthorized access
+                  </span>
                 </li>
                 <li className="flex items-start space-x-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
@@ -103,9 +124,9 @@ const PrivacyPolicy: React.FC = () => {
               Third-Party Services
             </h2>
             <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-              We use Google AdSense to display advertisements. Google may collect information about your 
-              visits to our site. You can opt out of personalized advertising by visiting Google's 
-              Ad Settings page.
+              We use Google AdSense to display advertisements. Google may
+              collect information about your visits to our site. You can opt out
+              of personalized advertising by visiting Google's Ad Settings page.
             </p>
           </section>
 
@@ -114,8 +135,9 @@ const PrivacyPolicy: React.FC = () => {
               Your Rights
             </h2>
             <p className="text-neutral-600 dark:text-neutral-400">
-              Since we don't permanently store your files or personal information, there's no data to 
-              delete or modify. If you have concerns about your privacy, please contact us.
+              Since we don't permanently store your files or personal
+              information, there's no data to delete or modify. If you have
+              concerns about your privacy, please contact us.
             </p>
           </section>
 
@@ -124,7 +146,8 @@ const PrivacyPolicy: React.FC = () => {
               Contact Us
             </h2>
             <p className="text-neutral-600 dark:text-neutral-400">
-              If you have any questions about this Privacy Policy, please contact us at privacy@pdflo.app
+              If you have any questions about this Privacy Policy, please
+              contact us at privacy@pdflo.app
             </p>
           </section>
         </div>

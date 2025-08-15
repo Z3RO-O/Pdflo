@@ -8,17 +8,35 @@ const NotFound: React.FC = () => {
   const navigate = useNavigate()
 
   const popularTools = [
-    { id: ConversionType.IMAGE_TO_PDF, name: 'Image to PDF', description: 'Convert images to PDF' },
-    { id: ConversionType.PDF_TO_WORD, name: 'PDF to Word', description: 'Convert PDF to editable Word' },
-    { id: ConversionType.MERGE_PDF, name: 'Merge PDF', description: 'Combine multiple PDFs' },
-    { id: ConversionType.COMPRESS_PDF, name: 'Compress PDF', description: 'Reduce PDF file size' },
+    {
+      id: ConversionType.IMAGE_TO_PDF,
+      name: 'Image to PDF',
+      description: 'Convert images to PDF',
+    },
+    {
+      id: ConversionType.PDF_TO_WORD,
+      name: 'PDF to Word',
+      description: 'Convert PDF to editable Word',
+    },
+    {
+      id: ConversionType.MERGE_PDF,
+      name: 'Merge PDF',
+      description: 'Combine multiple PDFs',
+    },
+    {
+      id: ConversionType.COMPRESS_PDF,
+      name: 'Compress PDF',
+      description: 'Reduce PDF file size',
+    },
   ]
 
   return (
     <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 flex items-center justify-center p-4">
       <div className="max-w-2xl mx-auto text-center">
         <div className="mb-8">
-          <div className="text-6xl font-bold text-primary dark:text-secondary-light mb-4">404</div>
+          <div className="text-6xl font-bold text-primary dark:text-secondary-light mb-4">
+            404
+          </div>
           <h1 className="text-3xl font-bold text-neutral-800 dark:text-neutral-100 mb-4">
             Page Not Found
           </h1>
@@ -73,7 +91,9 @@ const NotFound: React.FC = () => {
         </div>
 
         <div className="mt-8 text-sm text-neutral-500 dark:text-neutral-400">
-          <p>Need help? All our PDF tools are free and require no registration.</p>
+          <p>
+            Need help? All our PDF tools are free and require no registration.
+          </p>
         </div>
       </div>
     </div>

@@ -350,39 +350,40 @@ const BaseConversionView: React.FC<BaseConversionViewProps> = ({
         )}
 
         {/* AdSense Ads for specific conversion types - Only show after successful conversion */}
-        {processedFiles.length > 0 && [
-          'image-to-pdf',
-          'word-to-pdf',
-          'excel-to-pdf',
-          'powerpoint-to-pdf',
-          'text-to-pdf',
-          'html-to-pdf',
-          'epub-to-pdf',
-          'rtf-to-pdf',
-          'vector-to-pdf',
-          'pdf-to-powerpoint',
-          'pdf-to-text',
-          'pdf-to-html',
-          'pdf-to-epub',
-          'pdf-to-rtf',
-          'pdf-to-svg',
-          'merge-pdf',
-          'split-pdf',
-          'compress-pdf',
-          'password-protect-pdf',
-          'reorder-pages-pdf',
-          'add-watermark-pdf',
-          'edit-metadata-pdf',
-          'ocr-pdf',
-        ].includes(task.id) && (
-          <AdSense
-            adSlot="6480016001"
-            adFormat="auto"
-            className="mt-6 md:mt-8"
-          />
-        )}
+        {processedFiles.length > 0 &&
+          [
+            'image-to-pdf',
+            'word-to-pdf',
+            'excel-to-pdf',
+            'powerpoint-to-pdf',
+            'text-to-pdf',
+            'html-to-pdf',
+            'epub-to-pdf',
+            'rtf-to-pdf',
+            'vector-to-pdf',
+            'pdf-to-powerpoint',
+            'pdf-to-text',
+            'pdf-to-html',
+            'pdf-to-epub',
+            'pdf-to-rtf',
+            'pdf-to-svg',
+            'merge-pdf',
+            'split-pdf',
+            'compress-pdf',
+            'password-protect-pdf',
+            'reorder-pages-pdf',
+            'add-watermark-pdf',
+            'edit-metadata-pdf',
+            'ocr-pdf',
+          ].includes(task.id) && (
+            <AdSense
+              adSlot="6480016001"
+              adFormat="auto"
+              className="mt-6 md:mt-8"
+            />
+          )}
       </div>
-      
+
       {/* Enhanced Content Section - Only show when no files are uploaded */}
       {uploadedFiles.length === 0 && !processedFiles.length && (
         <ContentEnhancer task={task} />

@@ -23,7 +23,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png", 
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -37,7 +37,7 @@
       "form_factor": "wide"
     },
     {
-      "src": "/screenshot-narrow.png", 
+      "src": "/screenshot-narrow.png",
       "sizes": "640x1136",
       "type": "image/png",
       "form_factor": "narrow"
@@ -58,7 +58,7 @@
     },
     {
       "name": "PDF to Word",
-      "short_name": "PDF→Word", 
+      "short_name": "PDF→Word",
       "description": "Convert PDF to Word",
       "url": "/pdf-to-word",
       "icons": [

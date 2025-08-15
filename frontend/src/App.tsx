@@ -214,9 +214,7 @@ const AppShell: React.FC = () => {
   }
 
   return (
-    <div
-      className={`flex flex-col font-sans ${darkMode ? 'dark' : ''}`}
-    >
+    <div className={`flex flex-col font-sans ${darkMode ? 'dark' : ''}`}>
       <SEOHead task={activeTask} />
       <OfflineAlert />
       <Header onMenuClick={() => setSidebarOpen(!sidebarOpen)} />

@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { Layers, FileText, Download, Shield, Zap } from 'lucide-react'
+import { Layers, FileText, Shield, Zap } from 'lucide-react'
 
 interface PlaceholderViewProps {
   title: string
@@ -13,9 +13,10 @@ const PlaceholderView: React.FC<PlaceholderViewProps> = ({
   icon,
 }) => {
   // Don't show "under construction" content - provide valuable information instead
-  const isUnderConstruction = message.toLowerCase().includes('under construction') || 
-                             message.toLowerCase().includes('check back soon')
-  
+  const isUnderConstruction =
+    message.toLowerCase().includes('under construction') ||
+    message.toLowerCase().includes('check back soon')
+
   if (isUnderConstruction) {
     return (
       <div className="max-w-4xl mx-auto p-6 bg-white dark:bg-neutral-900 rounded-lg shadow-lg">
@@ -27,7 +28,8 @@ const PlaceholderView: React.FC<PlaceholderViewProps> = ({
             {title}
           </h1>
           <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
-            Professional PDF conversion and editing tool. Convert, merge, split, and optimize your PDF files with ease.
+            Professional PDF conversion and editing tool. Convert, merge, split,
+            and optimize your PDF files with ease.
           </p>
         </div>
 
@@ -38,7 +40,8 @@ const PlaceholderView: React.FC<PlaceholderViewProps> = ({
               Document Conversion
             </h3>
             <p className="text-neutral-600 dark:text-neutral-400 text-sm">
-              Convert between PDF, Word, Excel, PowerPoint, and other popular document formats with high fidelity.
+              Convert between PDF, Word, Excel, PowerPoint, and other popular
+              document formats with high fidelity.
             </p>
           </div>
 
@@ -48,7 +51,8 @@ const PlaceholderView: React.FC<PlaceholderViewProps> = ({
               Secure Processing
             </h3>
             <p className="text-neutral-600 dark:text-neutral-400 text-sm">
-              Your files are processed securely and automatically deleted after conversion. We prioritize your privacy.
+              Your files are processed securely and automatically deleted after
+              conversion. We prioritize your privacy.
             </p>
           </div>
 
@@ -58,7 +62,8 @@ const PlaceholderView: React.FC<PlaceholderViewProps> = ({
               Fast & Reliable
             </h3>
             <p className="text-neutral-600 dark:text-neutral-400 text-sm">
-              Lightning-fast processing with professional-grade conversion engines for consistent, high-quality results.
+              Lightning-fast processing with professional-grade conversion
+              engines for consistent, high-quality results.
             </p>
           </div>
         </div>
@@ -77,7 +82,8 @@ const PlaceholderView: React.FC<PlaceholderViewProps> = ({
 
         <div className="mt-8 text-center">
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            Supported formats: PDF, DOCX, XLSX, PPTX, JPG, PNG, TXT, HTML, and more
+            Supported formats: PDF, DOCX, XLSX, PPTX, JPG, PNG, TXT, HTML, and
+            more
           </p>
         </div>
       </div>
