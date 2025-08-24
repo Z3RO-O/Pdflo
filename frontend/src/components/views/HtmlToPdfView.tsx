@@ -6,7 +6,7 @@ import Button from '@/components/Button'
 import { Download, AlertCircle } from 'lucide-react'
 import styled from 'styled-components'
 import { ThemeContext } from '@/contexts/ThemeContext'
-import AdSense from '@/components/AdSense'
+
 import getApiUrl from '@/utils/api'
 
 interface HtmlToPdfViewProps {
@@ -419,8 +419,7 @@ const HtmlToPdfView: React.FC<HtmlToPdfViewProps> = ({ task }) => {
           </ResultsContainer>
         )}
 
-        {/* AdSense Ad for HTML to PDF */}
-        <AdSense adSlot="6480016001" adFormat="auto" className="mt-8" />
+
       </Card>
     </PageBackground>
   )

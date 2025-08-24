@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Home, Search, FileText } from 'lucide-react'
 import { ConversionType } from '@/constants'
 import Button from '@/components/Button'
+import GlobalAds from '@/components/GlobalAds'
 
 const NotFound: React.FC = () => {
   const navigate = useNavigate()
@@ -94,6 +95,11 @@ const NotFound: React.FC = () => {
           <p>
             Need help? All our PDF tools are free and require no registration.
           </p>
+        </div>
+        
+        {/* Ad for 404 page */}
+        <div className="mt-8">
+          <GlobalAds position="bottom" />
         </div>
       </div>
     </div>

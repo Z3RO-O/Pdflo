@@ -1,10 +1,16 @@
 import React from 'react'
 import { Shield, Lock, Trash2, Eye } from 'lucide-react'
+import GlobalAds from '@/components/GlobalAds'
 
 const PrivacyPolicy: React.FC = () => {
   return (
     <div className="bg-white dark:bg-neutral-900">
       <div className="lg:mx-48 mx-4 p-6">
+        {/* Top Ad for Privacy Policy */}
+        <div className="mb-8">
+          <GlobalAds position="top" />
+        </div>
+        
         <div className="text-center mb-8">
           <Shield className="w-12 h-12 text-primary mx-auto mb-4" />
           <h1 className="text-3xl font-bold text-neutral-800 dark:text-neutral-100 mb-2">
@@ -150,6 +156,11 @@ const PrivacyPolicy: React.FC = () => {
               contact us at privacy@pdflo.app
             </p>
           </section>
+        </div>
+        
+        {/* Bottom Ad for Privacy Policy */}
+        <div className="mt-8">
+          <GlobalAds position="bottom" />
         </div>
       </div>
     </div>

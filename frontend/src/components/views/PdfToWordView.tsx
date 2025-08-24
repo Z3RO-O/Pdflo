@@ -22,7 +22,7 @@ import FileUpload from '@/components/FileUpload'
 import getApiUrl from '@/utils/api'
 import { UploadedFile } from '@/types'
 import { ThemeContext } from '@/contexts/ThemeContext'
-import AdSense from '@/components/AdSense'
+
 
 const PdfToWordView: React.FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([])
@@ -288,20 +288,7 @@ const PdfToWordView: React.FC = () => {
           </Button>
         </Box>
 
-        {/* AdSense Ad for PDF to Word */}
-        <Box sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
-          <AdSense
-            adSlot="6480016001"
-            adFormat="auto"
-            style={{
-              width: '100%',
-              height: 'auto',
-              margin: '0.5rem 0 !important',
-              minHeight: '250px',
-              maxWidth: '100%',
-            }}
-          />
-        </Box>
+
 
         {error && (
           <Alert severity="error" sx={{ mt: 3 }}>

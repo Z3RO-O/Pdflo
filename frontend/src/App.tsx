@@ -44,6 +44,7 @@ import WatermarkPdfView from '@/components/views/WatermarkPdfView'
 import EditMetadataPdfView from '@/components/views/EditMetadataPdfView'
 import OCRPdfView from '@/components/views/OCRPdfView'
 import OfflineAlert from '@/components/OfflineAlert'
+import GlobalAds from '@/components/GlobalAds'
 
 const AppShell: React.FC = () => {
   const navigate = useNavigate()
@@ -234,12 +235,23 @@ const AppShell: React.FC = () => {
           />
         </div>
         <main className="flex-1 p-0 md:p-6 overflow-y-auto bg-neutral-50 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 w-full">
+          {/* Top Ad - Shown on all pages */}
+          <div className="hidden md:block">
+            <GlobalAds position="top" className="mx-4 md:mx-0" />
+          </div>
+          
           {conversionError && (
             <div className="p-4 mb-4 bg-red-100 border border-red-300 text-red-700 rounded text-center font-semibold mx-4 mt-4 md:mx-0">
               {conversionError}
             </div>
           )}
+          
           {renderActiveView()}
+          
+          {/* Bottom Ad - Shown on all pages */}
+          <div className="mt-8">
+            <GlobalAds position="bottom" className="mx-4 md:mx-0" />
+          </div>
         </main>
       </div>
       <Footer />
@@ -253,7 +265,7 @@ const App: React.FC = () => {
       <Routes>
         <Route
           path="/"
-          element={<Navigate to={`/${ConversionType.IMAGE_TO_PDF}`} replace />}
+          element={<Navigate to={`/${ConversionType.MERGE_PDF}`} replace />}
         />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path=":taskId" element={<AppShell />} />

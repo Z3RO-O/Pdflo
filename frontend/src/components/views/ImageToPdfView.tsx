@@ -28,7 +28,7 @@ import {
   Divider,
   SelectChangeEvent,
 } from '@mui/material'
-import AdSense from '@/components/AdSense'
+
 import {
   Delete as DeleteIcon,
   CloudUpload as CloudUploadIcon,
@@ -2108,8 +2108,7 @@ const MuiImageToPdfTool: React.FC = () => {
                 />
               )}
 
-            {/* AdSense Ad for Image to PDF */}
-            <AdSense adSlot="6480016001" adFormat="auto" className="mt-8" />
+
           </Box>
         </Container>
       </Box>

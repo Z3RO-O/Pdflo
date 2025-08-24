@@ -6,7 +6,7 @@ import { ConversionTask, ProcessedFile } from '@/types'
 import Button from '@/components/Button'
 import ProgressBar from '@/components/ProgressBar'
 import { Download, AlertTriangle, CheckCircle, Eye, X } from 'lucide-react'
-import AdSense from '@/components/AdSense'
+
 
 // Initialize PDF.js worker - use local worker file
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js'
@@ -1077,10 +1077,7 @@ const PdfToImageView: React.FC<PdfToImageViewProps> = ({ task }) => {
 
       <canvas ref={canvasRef} style={{ display: 'none' }} />
 
-      {/* AdSense Ad for PDF to Image */}
-      <div style={{ marginBottom: '10px' }}>
-        <AdSense adSlot="6480016001" adFormat="auto" className="mt-8" />
-      </div>
+
       <br />
     </div>
   )

@@ -31,7 +31,7 @@ import {
 } from '@mui/icons-material'
 import * as pdfjsLib from 'pdfjs-dist'
 import { PDFDocumentProxy } from 'pdfjs-dist'
-import AdSense from '@/components/AdSense'
+
 import getApiUrl from '@/utils/api'
 
 // Set up PDF.js worker
@@ -1223,20 +1223,7 @@ const PdfToExcelView: React.FC<PdfToExcelViewProps> = ({
         </Card>
       )}
 
-      {/* AdSense Ad for PDF to Excel - Below Download Section */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-        <AdSense
-          adSlot="6480016001"
-          adFormat="auto"
-          style={{
-            width: '100%',
-            height: 'auto',
-            margin: '0rem 0 !important',
-            minHeight: '250px',
-            maxWidth: '100%',
-          }}
-        />
-      </Box>
+
 
       {/* Features Section */}
       <Card

@@ -12,8 +12,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({ task }) => {
       const title = `${task.name} - Free Online PDF Tool | Pdflo`
       document.title = title
 
-      // Update meta description
-      const description = `${task.description} Free, secure, and fast PDF conversion tool. No registration required.`
+      const description = task.description
 
       // Update meta tags
       updateMetaTag('description', description)
